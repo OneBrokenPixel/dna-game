@@ -1,4 +1,4 @@
 dna-game
 ========
 
-Unity Dna puzzel game
+Unity Dna puzzle game
