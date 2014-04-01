@@ -9,9 +9,36 @@ public class DNA_Editor : Editor {
 
     public override void OnInspectorGUI()
     {
+
+
         serializedObject.Update();
         DNA dnaTarget = target as DNA;
         GUI.changed = false;
+
+        if (DNA.Gene == null)
+        {
+            DNA.Gene = Resources.Load<GameObject>("Gene");
+        }
+        if (DNA.Genes == null)
+        {
+            DNA.Genes = Resources.LoadAll<Sprite>("dna");
+        }
+
+        dnaTarget.dna.parent = dnaTarget.transform;
+
+        float stepSize = EditorGUILayout.FloatField("Step Size", dnaTarget.dna.stepSize );
+
+        if (dnaTarget.dna.stepSize != stepSize)
+        {
+            dnaTarget.dna.stepSize = stepSize;
+            Vector3 step = dnaTarget.transform.position;
+            for (int i = 0; i < dnaTarget.dna.length; i++)
+            {
+                dnaTarget.dna.topSprites[i].transform.position = step;
+                dnaTarget.dna.bottomSprites[i].transform.position = step;
+                step.x += stepSize;
+            }
+        }
 
         dnaTarget.dna.length = Mathf.Max(0, EditorGUILayout.IntField("Length", dnaTarget.dna.length));
 
@@ -22,7 +49,12 @@ public class DNA_Editor : Editor {
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField((i+1).ToString(), GUILayout.Width(32.0f));
             dnaTarget.dna.top[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.top[i]);
+            dnaTarget.dna.topSprites[i].sprite = DNA.Genes[(int)dnaTarget.dna.top[i]];
+
             dnaTarget.dna.bottom[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.bottom[i]);
+            dnaTarget.dna.bottomSprites[i].sprite = DNA.Genes[(int)dnaTarget.dna.bottom[i]];
+
+
 
             EditorGUILayout.EndVertical();
         }
@@ -30,7 +62,7 @@ public class DNA_Editor : Editor {
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndScrollView();
 
-        Debug.Log("Dirty " + GUI.changed);
+        //Debug.Log("Dirty " + GUI.changed);
 
         if (GUI.changed)
             EditorUtility.SetDirty(dnaTarget);
