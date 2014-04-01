@@ -12,17 +12,19 @@ public class DNA_Editor : Editor {
         serializedObject.Update();
         DNA myTarget = (DNA)target;
 
-        scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(100f));
-
         myTarget.dna.length = Mathf.Max(0, EditorGUILayout.IntField("Length", myTarget.dna.length));
+
+        EditorGUILayout.Separator();
+
+        scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(75f));
 
         EditorGUILayout.BeginHorizontal();
         for (int i = 0; i < myTarget.dna.length; i++)
         {
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField((i+1).ToString(), GUILayout.Width(32.0f));
-            myTarget.dna.top[i] = (DNA.GATC)EditorGUILayout.EnumPopup(myTarget.dna.top[i]);
-            myTarget.dna.bottom[i] = (DNA.GATC)EditorGUILayout.EnumPopup(myTarget.dna.bottom[i]);
+            myTarget.dna.top[i].type = (DNA.GATC)EditorGUILayout.EnumPopup(myTarget.dna.top[i].type);
+            myTarget.dna.bottom[i].type = (DNA.GATC)EditorGUILayout.EnumPopup(myTarget.dna.bottom[i].type);
 
             EditorGUILayout.EndVertical();
         }
@@ -30,6 +32,8 @@ public class DNA_Editor : Editor {
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.EndScrollView();
+
+        
 
         serializedObject.ApplyModifiedProperties();
     }

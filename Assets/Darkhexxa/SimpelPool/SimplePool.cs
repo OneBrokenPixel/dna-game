@@ -13,6 +13,7 @@ namespace Darkhexxa
           * Simple Pool Component
           * give it a game object and it will spawn clones.
           */
+        [ExecuteInEditMode]
 		[AddComponentMenu("DarkHexxa/SimplePool/Pool")]
 		public class SimplePool : MonoBehaviour
 		{
@@ -68,7 +69,18 @@ namespace Darkhexxa
                   */
                 public static bool operator == ( PoolData data1, PoolData data2 )
                 {
-                    return (      data1.prefab.Equals(data2.prefab)
+                    if (System.Object.ReferenceEquals(data1, data2))
+                    {
+                        return true;
+                    }
+
+                    // If one is null, but not both, return false.
+                    if (((object)data1 == null) || ((object)data2 == null))
+                    {
+                        return false;
+                    }
+
+                    return (data1.prefab.Equals(data2.prefab)
                                && data1.maxCount == data2.maxCount
                                && data1.cullInactive == data2.cullInactive );
                 }
@@ -81,6 +93,19 @@ namespace Darkhexxa
                   */
                 public override bool Equals(object obj)
                 {
+                    // If parameter is null return false.
+                    if (obj == null)
+                    {
+                        return false;
+                    }
+
+                    // If parameter cannot be cast to Point return false.
+                    PoolData p = obj as PoolData;
+                    if ((System.Object)p == null)
+                    {
+                        return false;
+                    }
+
                     return (this.prefab.Equals((obj as PoolData).prefab)
                                && this.maxCount == (obj as PoolData).maxCount
                                && this.cullInactive == (obj as PoolData).cullInactive);
@@ -95,9 +120,7 @@ namespace Darkhexxa
                   */
                 public static bool operator !=(PoolData data1, PoolData data2)
                 {
-                    return (!data1.prefab.Equals(data2.prefab)
-                               && data1.maxCount != data2.maxCount
-                               && data1.cullInactive != data2.cullInactive);
+                    return !(data1 == data2);
                 }
                 /**
                   * generate hash code
@@ -152,8 +175,8 @@ namespace Darkhexxa
 			{
                 if (data.prefab != null)
 				{
-					//Debug.Log ("Adding New Game Objects to " + prefab.name + " pool");
-                    for (int i = 0; i < data.batchCreateCount && isFull; i++)
+                    Debug.Log("Adding New Game Objects to " + data.prefab.name + " pool " + _inactive.Count);
+                    for (int i = 0; i < data.batchCreateCount-_inactive.Count && isFull; i++)
 					{
 						//Debug.Log(i);
                         GameObject obj = GameObject.Instantiate(data.prefab) as GameObject;
@@ -293,16 +316,13 @@ namespace Darkhexxa
                         data.prefab.AddComponent<PoolListableComponent>(); ///< adds a listable component to the prefab objects so the clones can be listed.
 					}
 				}
-
-				_inactive = new ComponentList ();
-				_active = new ComponentList ();
+                if( _inactive == null )
+				    _inactive = new ComponentList ();
+                if( _active == null )
+				    _active = new ComponentList ();
 				StartCoroutine (CullRoutine ());
 
                 AddNewGameObjects();
-				/*
-				for(int i = 0; i < 6; i++)
-					Spawn();
-					*/
 			}
 
             /**
@@ -396,6 +416,7 @@ namespace Darkhexxa
             public static SimplePool CreatePool(GameObject prefab)
             {
                 PoolData data = new PoolData(prefab);
+                //Debug.Log(data.prefab);
                 return CreatePool(data);
             }
 
@@ -483,6 +504,7 @@ namespace Darkhexxa
                 {
                     GameObject obj = new GameObject(data.prefab.name + "_pool");
                     pool = obj.AddComponent<SimplePool>();
+                    pool.data = data;
                 }
 
                 return pool;
