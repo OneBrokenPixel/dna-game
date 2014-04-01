@@ -10,30 +10,30 @@ public class DNA_Editor : Editor {
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        DNA myTarget = (DNA)target;
+        DNA dnaTarget = target as DNA;
+        GUI.changed = false;
 
-        myTarget.dna.length = Mathf.Max(0, EditorGUILayout.IntField("Length", myTarget.dna.length));
+        dnaTarget.dna.length = Mathf.Max(0, EditorGUILayout.IntField("Length", dnaTarget.dna.length));
 
-        EditorGUILayout.Separator();
-
-        scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(75f));
-
+        scroll = EditorGUILayout.BeginScrollView(scroll, GUILayout.Height(100f));
         EditorGUILayout.BeginHorizontal();
-        for (int i = 0; i < myTarget.dna.length; i++)
+        for (int i = 0; i < dnaTarget.dna.length; i++)
         {
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField((i+1).ToString(), GUILayout.Width(32.0f));
-            myTarget.dna.top[i].type = (DNA.GATC)EditorGUILayout.EnumPopup(myTarget.dna.top[i].type);
-            myTarget.dna.bottom[i].type = (DNA.GATC)EditorGUILayout.EnumPopup(myTarget.dna.bottom[i].type);
+            dnaTarget.dna.top[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.top[i]);
+            dnaTarget.dna.bottom[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.bottom[i]);
 
             EditorGUILayout.EndVertical();
         }
 
         EditorGUILayout.EndHorizontal();
-
         EditorGUILayout.EndScrollView();
 
-        
+        Debug.Log("Dirty " + GUI.changed);
+
+        if (GUI.changed)
+            EditorUtility.SetDirty(dnaTarget);
 
         serializedObject.ApplyModifiedProperties();
     }
