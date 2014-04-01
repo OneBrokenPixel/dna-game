@@ -11,6 +11,7 @@ public class Gene : MonoBehaviour {
         Red, Blue, Yellow, Green
     }
 
+    [SerializeField]
     private GATC _type;
     public GATC type
     {
