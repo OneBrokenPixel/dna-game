@@ -5,21 +5,17 @@ using System.Collections;
 public class DNA : MonoBehaviour
 {
 
-    static public GameObject Gene;
-    static public Sprite[] Genes;
-
-    public enum GATC : int
-    {
-        Red, Blue, Yellow, Green
-    }
+    public static GameObject Gene;
 
     [Serializable]
     public class DNA_Data
     {
+        /*
         [SerializeField]
         private GATC[] _top;
         [SerializeField]
         private GATC[] _bottom;
+         * */
         [SerializeField]
         private int _length;
 
@@ -30,10 +26,11 @@ public class DNA : MonoBehaviour
         public float stepSize = 0.5f;
 
         [SerializeField]
-        private SpriteRenderer[] _topSprites;
+        private Gene[] _topSprites;
         [SerializeField]
-        private SpriteRenderer[] _bottomSprites;
+        private Gene[] _bottomSprites;
 
+        /*
         public GATC[] top
         {
             get
@@ -49,8 +46,8 @@ public class DNA : MonoBehaviour
                 return _bottom;
             }
         }
-
-        public SpriteRenderer[] topSprites
+        */
+        public Gene[] topSprites
         {
             get
             {
@@ -58,7 +55,7 @@ public class DNA : MonoBehaviour
             }
         }
 
-        public SpriteRenderer[] bottomSprites
+        public Gene[] bottomSprites
         {
             get
             {
@@ -76,8 +73,10 @@ public class DNA : MonoBehaviour
             set
             {
                 _length = value;
+                /*
                 Array.Resize<GATC>(ref _top, _length);
                 Array.Resize<GATC>(ref _bottom, _length);
+                 * */
 
                 float step = parent.position.x;
                 int len = 0;
@@ -102,8 +101,8 @@ public class DNA : MonoBehaviour
                     }
                 }
 
-                Array.Resize<SpriteRenderer>(ref _topSprites, _length);
-                Array.Resize<SpriteRenderer>(ref _bottomSprites, _length);
+                Array.Resize<Gene>(ref _topSprites, _length);
+                Array.Resize<Gene>(ref _bottomSprites, _length);
 
                 Vector3 pos = new Vector3(step, parent.position.y, parent.position.z);
 
@@ -111,11 +110,13 @@ public class DNA : MonoBehaviour
                 {
                     GameObject obj = Instantiate(Gene, pos, Quaternion.identity) as GameObject;
                     obj.transform.parent = parent;
-                    _topSprites[i] = obj.GetComponent<SpriteRenderer>();
+                    _topSprites[i] = obj.GetComponent<Gene>();
+                    _topSprites[i].spriteRenderer = obj.GetComponent<SpriteRenderer>();
 
                     obj = Instantiate(Gene, pos, Quaternion.Euler(0, 0, 180)) as GameObject;
                     obj.transform.parent = parent;
-                    _bottomSprites[i] = obj.GetComponent<SpriteRenderer>();
+                    _bottomSprites[i] = obj.GetComponent<Gene>();
+                    _bottomSprites[i].spriteRenderer = obj.GetComponent<SpriteRenderer>();
 
                     pos.x += stepSize;
                 }
@@ -133,10 +134,6 @@ public class DNA : MonoBehaviour
         if (Gene == null)
         {
             Gene = Resources.Load<GameObject>("Gene");
-        }
-        if (Genes == null)
-        {
-            Genes = Resources.LoadAll<Sprite>("dna");
         }
 
         dna.parent = transform;

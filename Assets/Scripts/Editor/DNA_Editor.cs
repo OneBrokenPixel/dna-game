@@ -19,9 +19,9 @@ public class DNA_Editor : Editor {
         {
             DNA.Gene = Resources.Load<GameObject>("Gene");
         }
-        if (DNA.Genes == null)
+        if (Gene.Genes == null)
         {
-            DNA.Genes = Resources.LoadAll<Sprite>("dna");
+            Gene.Genes = Resources.LoadAll<Sprite>("dna");
         }
 
         dnaTarget.dna.parent = dnaTarget.transform;
@@ -48,11 +48,13 @@ public class DNA_Editor : Editor {
         {
             EditorGUILayout.BeginVertical();
             EditorGUILayout.LabelField((i+1).ToString(), GUILayout.Width(32.0f));
-            dnaTarget.dna.top[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.top[i]);
-            dnaTarget.dna.topSprites[i].sprite = DNA.Genes[(int)dnaTarget.dna.top[i]];
+            //dnaTarget.dna.top[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.top[i]);
+            //dnaTarget.dna.topSprites[i].sprite = DNA.Genes[(int)dnaTarget.dna.top[i]];
+            dnaTarget.dna.topSprites[i].type = (Gene.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.topSprites[i].type);
 
-            dnaTarget.dna.bottom[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.bottom[i]);
-            dnaTarget.dna.bottomSprites[i].sprite = DNA.Genes[(int)dnaTarget.dna.bottom[i]];
+            //dnaTarget.dna.bottom[i] = (DNA.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.bottom[i]);
+            dnaTarget.dna.bottomSprites[i].type = (Gene.GATC)EditorGUILayout.EnumPopup(dnaTarget.dna.bottomSprites[i].type);
+            //dnaTarget.dna.bottomSprites[i].sprite = DNA.Genes[(int)dnaTarget.dna.bottom[i]];
 
 
 
