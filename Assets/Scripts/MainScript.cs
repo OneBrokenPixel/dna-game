@@ -26,7 +26,6 @@ public class MainScript : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            print("selecting");
             selecting = true;
         }
         else if (Input.GetKeyDown(KeyCode.R))
@@ -38,8 +37,14 @@ public class MainScript : MonoBehaviour {
 	    if (selecting)
         {
             Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //print(selector.transform.
             selector.transform.position = new Vector3(mPos.x, 0f, 0);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                SpriteRenderer rend = selector.GetComponent<SpriteRenderer>();
+                dnaScript.flipGenesInArea(Vector3.Scale(selector.transform.position - rend.sprite.bounds.extents, selector.transform.localScale),
+                                          Vector3.Scale(selector.transform.position + rend.sprite.bounds.extents, selector.transform.localScale));
+            }
         }
 	}
 

@@ -3,22 +3,16 @@ using System.Collections;
 
 public class GeneScript : MonoBehaviour {
 
-    //SpriteCollection sprites;
     Animator animator;
     //private bool selected = false;
 
 	// Use this for initialization
 	void Start () {
-        //sprites = new SpriteCollection("Spritesheet");
          animator = GetComponent<Animator>() as Animator;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	    if (Input.GetMouseButtonDown(0))
-        {
-            animator.SetTrigger("playFlip");
-        }
 	}
 
     
@@ -27,8 +21,13 @@ public class GeneScript : MonoBehaviour {
         //animator.SetBool("selected", true);
         //animator.SetTrigger("playFlip");
     }
-    
 
+    public void flip()
+    {
+        animator.SetTrigger("playFlip");
+    }
+
+    /*
     void OnTriggerEnter2D(Collider2D col)
     {
         print("in");
@@ -40,5 +39,5 @@ public class GeneScript : MonoBehaviour {
         print("out");
         animator.SetBool("selected", false);
     }
-
+    */
 }
