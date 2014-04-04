@@ -37,18 +37,18 @@ public class DNAScript : MonoBehaviour
         topStrand = new GameObject[length];
         bottomStrand = new GameObject[length];
 
-        GameObject gene;
+        //GameObject gene;
 
         float margin = 0.3f;
         Vector3 pos = new Vector3(transform.position.x, transform.position.y);
         for (int i = 0; i < length; i++)
         {
-            gene = createGene(top[i]);
-            gene.transform.position = pos;
+            topStrand[i] = createGene(top[i]);
+            topStrand[i].transform.position = pos;
 
-            gene = createGene(bottom[i]);
-            gene.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
-            gene.transform.position = pos;
+            bottomStrand[i] = createGene(bottom[i]);
+            bottomStrand[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
+            bottomStrand[i].transform.position = pos;
 
             pos.x += margin;
         }
@@ -95,4 +95,23 @@ public class DNAScript : MonoBehaviour
         //gene.AddComponent("BoxCollider2D");
         return gene;
     }
+
+    public void flipGenesInArea(Vector3 bottomLeft, Vector3 topRight)
+    {
+        print("******");
+        print(bottomLeft + " " + topRight);
+        for (int i = 0; i < topStrand.Length; i++)
+        {
+            print("i " + topStrand[i].transform.position);
+            if (topStrand[i].transform.position.x > bottomLeft.x && topStrand[i].transform.position.x < topRight.x)
+            {
+                topStrand[i].GetComponent<Animator>().SetTrigger("playFlip");
+            }
+            if (bottomStrand[i].transform.position.x > bottomLeft.x && bottomStrand[i].transform.position.x < topRight.x)
+            {
+                bottomStrand[i].GetComponent<Animator>().SetTrigger("playFlip");
+            }
+        }
+    }
+
 }
