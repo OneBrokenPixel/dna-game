@@ -6,6 +6,8 @@ public class MainScript : MonoBehaviour {
     public GameObject dna;
     public GameObject selector;
 
+    public Rect buttonBar = new Rect(10, 10, 75, 200);
+
     private DNAScript dnaScript;
     private bool selecting;
 	// Use this for initialization
@@ -44,7 +46,7 @@ public class MainScript : MonoBehaviour {
     void OnGUI()
     {
 
-        GUILayout.BeginArea(new Rect(10, 10, 75, 200));
+        GUILayout.BeginArea(buttonBar);
         GUILayout.BeginVertical();
 
         if(GUILayout.Button("Rule 1"))

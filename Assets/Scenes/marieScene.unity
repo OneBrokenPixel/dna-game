@@ -103,6 +103,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dna: {fileID: 1457822709}
   selector: {fileID: 1180293575}
+  buttonBar:
+    serializedVersion: 2
+    x: 10
+    y: 10
+    width: 75
+    height: 200
 --- !u!4 &769847021
 Transform:
   m_ObjectHideFlags: 0
