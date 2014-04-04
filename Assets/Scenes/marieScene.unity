@@ -101,7 +101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344b3c73d3af2574ca851185c9580173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dna: {fileID: 1457822709}
+  input_dna:
+  - {fileID: 1457822710}
   selector: {fileID: 1180293575}
   buttonBar:
     serializedVersion: 2

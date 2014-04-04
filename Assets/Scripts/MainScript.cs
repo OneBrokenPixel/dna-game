@@ -3,22 +3,26 @@ using System.Collections;
 
 public class MainScript : MonoBehaviour {
 
-    public GameObject dna;
+    public DNAScript[] input_dna;
+    public DNAScript goal_dna;
+
     public GameObject selector;
 
     public Rect buttonBar = new Rect(10, 10, 75, 200);
 
-    private DNAScript dnaScript;
+    //private DNAScript dnaScript;
     private bool selecting;
 	// Use this for initialization
 	void Start () {
         selecting = true;
 
-        dnaScript = dna.GetComponent<DNAScript>();
-        dnaScript.Start();
+        DNAScript.sprites = Resources.LoadAll<Sprite>("dna");
 
-        // This will be replaced by however we're loading in a level
-        dnaScript.createDNA("rRGgbBYy", "yYBbgGRr");
+        foreach (DNAScript dna in input_dna)
+        {
+            // This will be replaced by however we're loading in a level
+            dna.createDNA("rRGgbBYy", "yYBbgGRr");
+        }
 	}
 	
 
@@ -45,7 +49,7 @@ public class MainScript : MonoBehaviour {
 
     void OnGUI()
     {
-
+        /*
         GUILayout.BeginArea(buttonBar);
         GUILayout.BeginVertical();
 
@@ -69,5 +73,6 @@ public class MainScript : MonoBehaviour {
 
         GUILayout.EndVertical();
         GUILayout.EndArea();
+         * /*
     }
 }

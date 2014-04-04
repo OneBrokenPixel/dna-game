@@ -10,12 +10,11 @@ public class DNAScript : MonoBehaviour
     public GameObject[] topStrand;
     public GameObject[] bottomStrand;
 
-    Sprite[] sprites;
+    public static Sprite[] sprites;
 
     // Use this for initialization
     public void Start()
     {
-        sprites = Resources.LoadAll<Sprite>("dna");
         print(sprites.Length);
         length = 0;
     }
@@ -41,14 +40,17 @@ public class DNAScript : MonoBehaviour
         GameObject gene;
 
         float margin = 0.3f;
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y);
         for (int i = 0; i < length; i++)
         {
             gene = createGene(top[i]);
-            gene.transform.position = new Vector3(i * margin, 0, 0);
+            gene.transform.position = pos;
 
             gene = createGene(bottom[i]);
             gene.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
-            gene.transform.position = new Vector3(i * margin, 0, 0);
+            gene.transform.position = pos;
+
+            pos.x += margin;
         }
 
     }
