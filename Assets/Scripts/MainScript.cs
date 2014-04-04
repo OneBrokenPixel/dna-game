@@ -40,4 +40,32 @@ public class MainScript : MonoBehaviour {
             selector.transform.position = new Vector3(mPos.x, 0f, 0);
         }
 	}
+
+    void OnGUI()
+    {
+
+        GUILayout.BeginArea(new Rect(10, 10, 75, 200));
+        GUILayout.BeginVertical();
+
+        if(GUILayout.Button("Rule 1"))
+        {
+            print("You clicked the Rule 1 button!");
+        }
+
+        if (GUILayout.Button("Rule 2"))
+        {
+            print("You clicked the Rule 2 button!");
+        }
+        if (GUILayout.Button("Rule 3"))
+        {
+            print("You clicked the Rule 3 button!");
+        }
+        if (GUILayout.Button("Rule 4"))
+        {
+            print("You clicked the Rule 4 button!");
+        }
+
+        GUILayout.EndVertical();
+        GUILayout.EndArea();
+    }
 }
