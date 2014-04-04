@@ -8,7 +8,7 @@ public class MainScript : MonoBehaviour {
 
     public GameObject selector;
 
-    public Rect buttonBar = new Rect(10, 10, 75, 200);
+    //public Rect buttonBar = new Rect(10, 10, 75, 200);
 
     //private DNAScript dnaScript;
     private bool selecting;
