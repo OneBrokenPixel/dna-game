@@ -65,10 +65,6 @@ Transition:
     m_ConditionEvent: playFlip
     m_EventTreshold: 0
     m_ExitTime: .899999976
-  - m_ConditionMode: 1
-    m_ConditionEvent: selected
-    m_EventTreshold: 0
-    m_ExitTime: .899999976
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -85,10 +81,6 @@ Transition:
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: playFlip
-    m_EventTreshold: 0
-    m_ExitTime: .5
-  - m_ConditionMode: 1
-    m_ConditionEvent: selected
     m_EventTreshold: 0
     m_ExitTime: .5
   m_Atomic: 1
@@ -194,6 +186,10 @@ StateMachine:
       first: {fileID: 0}
       second: []
     data:
+      first: {fileID: 110270307}
+      second:
+      - {fileID: 110141503}
+    data:
       first: {fileID: 110200000}
       second:
       - {fileID: 110142751}
@@ -201,10 +197,6 @@ StateMachine:
       first: {fileID: 110252475}
       second:
       - {fileID: 110195316}
-    data:
-      first: {fileID: 110270307}
-      second:
-      - {fileID: 110141503}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 108, y: 192, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
