@@ -59,6 +59,7 @@ public class DNAScript : MonoBehaviour
         SpriteRenderer sr;
 
         gene = Instantiate(Gene) as GameObject;
+        gene.transform.parent = transform;
         sr = gene.GetComponent<SpriteRenderer>();
 
         switch (type)
@@ -89,7 +90,7 @@ public class DNAScript : MonoBehaviour
                 break;
         }
 
-        gene.AddComponent("BoxCollider2D");
+        //gene.AddComponent("BoxCollider2D");
         return gene;
     }
 }
