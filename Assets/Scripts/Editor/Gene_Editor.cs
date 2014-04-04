@@ -6,9 +6,6 @@ using System.Collections;
 [CustomEditor(typeof(Gene))]
 public class Gene_Editor : Editor
 {
-
-    Vector2 scroll = new Vector2(0, 0);
-
     public override void OnInspectorGUI()
     {
 

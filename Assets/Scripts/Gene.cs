@@ -6,6 +6,7 @@ public class Gene : MonoBehaviour {
 
     public static Sprite[] Genes;
 
+    [System.Serializable]
     public enum GATC : int
     {
         Red, Blue, Yellow, Green
@@ -13,6 +14,7 @@ public class Gene : MonoBehaviour {
 
     [SerializeField]
     private GATC _type;
+
     public GATC type
     {
         get
@@ -28,6 +30,7 @@ public class Gene : MonoBehaviour {
             }
         }
     }
+
     public SpriteRenderer spriteRenderer;
 
 	// Use this for initialization
