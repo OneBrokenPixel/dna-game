@@ -3,10 +3,19 @@ using System.Collections;
 
 public class MainScript : MonoBehaviour {
 
+    public enum Rule : int
+    {
+        Split = 0, Swap = 1, Flip_X = 2, Flip_Y = 3
+    };
+
     public DNAScript[] input_dna;
     public DNAScript goal_dna;
 
     public GameObject selector;
+
+    public Transform rules_node;
+    public Transform[] rule_Screens;
+    public int active_rule = (int)Rule.Split;
 
     //public Rect buttonBar = new Rect(10, 10, 75, 200);
 
@@ -17,6 +26,15 @@ public class MainScript : MonoBehaviour {
         selecting = true;
 
         DNAScript.sprites = Resources.LoadAll<Sprite>("dna");
+
+        rules_node = transform.GetChild(0);
+
+        rule_Screens = new Transform[rules_node.childCount];
+
+        for (int i = 0; i < rules_node.childCount; i++)
+        {
+            rule_Screens[i] = rules_node.GetChild(i);
+        }
 
         foreach (DNAScript dna in input_dna)
         {
@@ -56,6 +74,26 @@ public class MainScript : MonoBehaviour {
         }
 	}
 
+    int steps = 10;
+    bool isScreenAnimating = false;
+
+    IEnumerator ModeSwitchAnimation(int newRule)
+    {
+        isScreenAnimating = true;
+        //print("new: " + newRule + " old " + active_rule);
+        Vector3 dir = rule_Screens[newRule].localPosition - rule_Screens[active_rule].localPosition;
+
+        Vector3 pos = rules_node.transform.position;
+
+        for (int i = 1; i <= steps; i++ )
+        {
+            rules_node.transform.position = pos - (dir*(i*0.1f));
+            yield return null;
+        }
+        isScreenAnimating = false;
+    }
+
+
     void OnGUI()
     {
         /*
@@ -83,5 +121,32 @@ public class MainScript : MonoBehaviour {
         GUILayout.EndVertical();
         GUILayout.EndArea();
          */
+
+
+        float half = Screen.width / 2;
+
+        if (GUI.Button(new Rect(half - 55, 10, 50, 50), GUIContent.none) && isScreenAnimating == false)
+        {
+            int newRule = Mathf.Clamp(active_rule - 1, (int)Rule.Split, (int)Rule.Flip_Y);
+
+            if (newRule != active_rule)
+            {
+                //StopCoroutine("ModeSwitchAnimation");
+                StartCoroutine(ModeSwitchAnimation(newRule));
+                active_rule = newRule;
+            }
+        }
+
+        if (GUI.Button(new Rect(half + 5, 10, 50, 50), GUIContent.none) && isScreenAnimating == false)
+        {
+            int newRule = Mathf.Clamp(active_rule + 1, (int)Rule.Split, (int)Rule.Flip_Y);
+
+            if (newRule != active_rule)
+            {
+                //StopCoroutine("ModeSwitchAnimation");
+                StartCoroutine(ModeSwitchAnimation(newRule));
+                active_rule = newRule;
+            }
+        }
     }
 }
