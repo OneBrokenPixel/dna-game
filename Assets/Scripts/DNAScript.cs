@@ -98,11 +98,8 @@ public class DNAScript : MonoBehaviour
 
     public void flipGenesInArea(Vector3 bottomLeft, Vector3 topRight)
     {
-        //print("******");
-       // print(bottomLeft + " " + topRight);
         for (int i = 0; i < topStrand.Length; i++)
         {
-            //print("i " + topStrand[i].transform.position);
             if (topStrand[i].transform.position.x > bottomLeft.x && topStrand[i].transform.position.x < topRight.x)
             {
                 topStrand[i].GetComponent<Animator>().SetTrigger("playFlip");

@@ -66,7 +66,6 @@ public class MainScript : MonoBehaviour {
                 SpriteRenderer rend = selector.GetComponent<SpriteRenderer>();
                 foreach (DNAScript dna in input_dna)
                 {
-                    // This will be replaced by however we're loading in a level
                     dna.flipGenesInArea(Vector3.Scale(selector.transform.position - rend.sprite.bounds.extents, selector.transform.localScale),
                                           Vector3.Scale(selector.transform.position + rend.sprite.bounds.extents, selector.transform.localScale));
                 }
