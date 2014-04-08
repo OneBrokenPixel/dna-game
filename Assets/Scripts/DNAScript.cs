@@ -7,8 +7,8 @@ public class DNAScript : MonoBehaviour
     public GameObject Gene;
 
     int length;
-    public GameObject[] topStrand;
-    public GameObject[] bottomStrand;
+    public GeneScript[] topStrand;
+    public GeneScript[] bottomStrand;
 
     public static Sprite[] sprites;
 
@@ -34,8 +34,8 @@ public class DNAScript : MonoBehaviour
         }
 
         length = top.Length;
-        topStrand = new GameObject[length];
-        bottomStrand = new GameObject[length];
+        topStrand = new GeneScript[length];
+        bottomStrand = new GeneScript[length];
 
         //GameObject gene;
 
@@ -43,24 +43,21 @@ public class DNAScript : MonoBehaviour
         Vector3 pos = new Vector3(transform.position.x, transform.position.y);
         for (int i = 0; i < length; i++)
         {
-            topStrand[i] = createGene(top[i]);
-            topStrand[i].transform.position = pos;
+            topStrand[i] = createGene(top[i], pos, Quaternion.identity);
 
-            bottomStrand[i] = createGene(bottom[i]);
-            bottomStrand[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, 180));
-            bottomStrand[i].transform.position = pos;
+            bottomStrand[i] = createGene(bottom[i], pos,Quaternion.Euler(new Vector3(0, 0, 180)));
 
             pos.x += margin;
         }
 
     }
 
-    public GameObject createGene(char type)
+    public GeneScript createGene(char type, Vector3 pos, Quaternion rot)
     {
         GameObject gene;
         SpriteRenderer sr;
 
-        gene = Instantiate(Gene) as GameObject;
+        gene = Instantiate(Gene,pos, rot) as GameObject;
         gene.transform.parent = transform;
         sr = gene.GetComponent<SpriteRenderer>();
 
@@ -93,7 +90,7 @@ public class DNAScript : MonoBehaviour
         }
 
         //gene.AddComponent("BoxCollider2D");
-        return gene;
+        return gene.GetComponent<GeneScript>();
     }
 
     public void flipGenesInArea(Vector3 bottomLeft, Vector3 topRight)

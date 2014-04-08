@@ -30,7 +30,7 @@ public class MainScript : MonoBehaviour {
 
         DNAScript.sprites = Resources.LoadAll<Sprite>("dna");
 
-        rules_node = transform.GetChild(0);
+        rules_node = transform.FindChild("RuleScreens");
 
         rule_Screens = new Transform[rules_node.childCount];
 
@@ -111,32 +111,6 @@ public class MainScript : MonoBehaviour {
 
     void OnGUI()
     {
-        /*
-        GUILayout.BeginArea(buttonBar);
-        GUILayout.BeginVertical();
-
-        if(GUILayout.Button("Rule 1"))
-        {
-            print("You clicked the Rule 1 button!");
-        }
-
-        if (GUILayout.Button("Rule 2"))
-        {
-            print("You clicked the Rule 2 button!");
-        }
-        if (GUILayout.Button("Rule 3"))
-        {
-            print("You clicked the Rule 3 button!");
-        }
-        if (GUILayout.Button("Rule 4"))
-        {
-            print("You clicked the Rule 4 button!");
-        }
-
-        GUILayout.EndVertical();
-        GUILayout.EndArea();
-         */
-
 
         float half = Screen.width / 2;
 
