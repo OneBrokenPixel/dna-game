@@ -23,6 +23,9 @@ public abstract class CSelectionTools
                                      // one SelectedGenes Per strand of DNA selected;
                                      // rules 3 and 4 will have SelectedGenes[2]
 
+    public Bounds dnaSelectionBounds = new Bounds();
+    public Bounds geneSelectionBounds = new Bounds();
+
     protected int _dnaIndex = 0; // current index of the dna in s_input;
     public int dnaIndex
     {
@@ -38,8 +41,6 @@ public abstract class CSelectionTools
     }
 
     protected abstract void updateSelection(); // abstact member function that updates the selected array.
-
-
 
 }
 
