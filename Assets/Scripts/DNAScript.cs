@@ -9,7 +9,7 @@ public class DNAScript : MonoBehaviour
     // What the dna is made of. Prefab.
     public GameObject Gene;
 
-    int length;
+    public int length { get; set; }
     public GeneScript[] topStrand;
     public GeneScript[] bottomStrand;
 
@@ -41,6 +41,7 @@ public class DNAScript : MonoBehaviour
 
         float margin = 0.3f;    // padding between each gene
         Vector3 pos = new Vector3(transform.position.x, transform.position.y);
+        /*
         for (int i = 0; i < length; i++)
         {
             topStrand[i] = createGene(top[i], pos, Quaternion.identity);
@@ -49,6 +50,11 @@ public class DNAScript : MonoBehaviour
 
             pos.x += margin;
         }
+        */
+
+        // trying something different - easier than positioning in main
+
+        
 
     }
 

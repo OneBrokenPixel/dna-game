@@ -46,13 +46,19 @@ public class MainScript : MonoBehaviour {
         {
             // This will be replaced by however we're loading in a level
             dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRr");
-            dna.transform.position = new Vector3(offset.x, offset.y + accumOffset, 0f);
-
+               
+            //dna.transform.position = new Vector3(offset.x, offset.y + accumOffset, 0f);
+            /*
+            Vector3 spos = Camera.main.WorldToScreenPoint(dna.transform.position);
+            float dnaX = spos.x - (dna.length / 8 * 28);
+            print(spos + " " + dnaX);
+            dna.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(dnaX, spos.y, 0));
             accumOffset += margin;
+             * */
         }
 
         goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
-        goalDNA.transform.position = new Vector3(offset.x, -4.5f);
+        //goalDNA.transform.position = new Vector3(offset.x, -4.5f);
 
 	}
 	
