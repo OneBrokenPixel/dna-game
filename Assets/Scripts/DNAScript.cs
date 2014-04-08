@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Attached to: DNA game object.
+// Needs: 1 gene prefab.
+
 public class DNAScript : MonoBehaviour
 {
-
+    // What the dna is made of. Prefab.
     public GameObject Gene;
 
     int length;
@@ -15,7 +18,6 @@ public class DNAScript : MonoBehaviour
     // Use this for initialization
     public void Start()
     {
-        //print(sprites.Length);
         length = 0;
     }
 
@@ -29,7 +31,7 @@ public class DNAScript : MonoBehaviour
     {
         if (top.Length != bottom.Length)
         {
-            // ideally throw an error
+            // TODO: ideally throw an error
             print("top and bottom strands need to be the same length");
         }
 
@@ -37,9 +39,7 @@ public class DNAScript : MonoBehaviour
         topStrand = new GameObject[length];
         bottomStrand = new GameObject[length];
 
-        //GameObject gene;
-
-        float margin = 0.3f;
+        float margin = 0.3f;    // padding between each gene
         Vector3 pos = new Vector3(transform.position.x, transform.position.y);
         for (int i = 0; i < length; i++)
         {
@@ -55,13 +55,14 @@ public class DNAScript : MonoBehaviour
 
     }
 
+    // Instantiates a gene, attaches the correct sprite colour.
     public GameObject createGene(char type)
     {
         GameObject gene;
         SpriteRenderer sr;
 
         gene = Instantiate(Gene) as GameObject;
-        gene.transform.parent = transform;
+        //gene.transform.parent = transform;
         sr = gene.GetComponent<SpriteRenderer>();
 
         switch (type)
@@ -92,10 +93,11 @@ public class DNAScript : MonoBehaviour
                 break;
         }
 
-        //gene.AddComponent("BoxCollider2D");
         return gene;
     }
 
+
+    // flips genes in a box area - temporary, will be changed later
     public void flipGenesInArea(Vector3 bottomLeft, Vector3 topRight)
     {
         for (int i = 0; i < topStrand.Length; i++)

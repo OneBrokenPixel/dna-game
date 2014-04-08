@@ -1,66 +1,67 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// Attached to: Empty game object.
+// Needs: 1 goal
+//        1+ dna scene objects.
+
 public class MainScript : MonoBehaviour {
 
+    // Anthony -> do the rule numbers here correspond to the rule numbers in the mock-up?
     public enum Rule : int
     {
         Split = 0, Swap = 1, Flip_X = 2, Flip_Y = 3
     };
 
-    public DNAScript[] input_dna;
-    public DNAScript goal_dna;
+    public DNAScript[] inputDNA;
+    public DNAScript goalDNA;
 
     public GameObject selector;
+    private bool selecting;
 
-    public Transform rules_node;
-    public Transform[] rule_Screens;
-    public int active_rule = (int)Rule.Split;
+    // deals with rule and rule changes
+    public Transform rulesNode;
+    public Transform[] ruleScreens;
+    public int activeRule = (int)Rule.Split;
 
     public float margin = 1.0f;
-    public Vector2 offets = new Vector2(0, 0);
+    public Vector2 offset = new Vector2(0, 0);
 
-    //public Rect buttonBar = new Rect(10, 10, 75, 200);
-
-    //private DNAScript dnaScript;
-    private bool selecting;
 	// Use this for initialization
 	void Start () {
         selecting = true;
 
         DNAScript.sprites = Resources.LoadAll<Sprite>("dna");
 
-        rules_node = transform.GetChild(0);
+        rulesNode = transform.GetChild(0);  // what child does a transform have?
+        ruleScreens = new Transform[rulesNode.childCount];
 
-        rule_Screens = new Transform[rules_node.childCount];
-
-        for (int i = 0; i < rules_node.childCount; i++)
+        for (int i = 0; i < rulesNode.childCount; i++)
         {
-            rule_Screens[i] = rules_node.GetChild(i);
+            ruleScreens[i] = rulesNode.GetChild(i);
         }
 
-        float midpoint = (input_dna.Length-1) * margin * 0.5f;
+        // dna positioning calculations
+        float midpoint = (inputDNA.Length-1) * margin * 0.5f;
         float accumOffset = -midpoint;
-        foreach (DNAScript dna in input_dna)
+        foreach (DNAScript dna in inputDNA)
         {
-            //print(accumOffset);
             // This will be replaced by however we're loading in a level
             dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRr");
-            dna.transform.position = new Vector3(offets.x, offets.y + accumOffset, 0f);
+            dna.transform.position = new Vector3(offset.x, offset.y + accumOffset, 0f);
 
             accumOffset += margin;
-
-            
         }
 
-        goal_dna.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
-        goal_dna.transform.position = new Vector3(offets.x, -4.5f);
+        goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
+        goalDNA.transform.position = new Vector3(offset.x, -4.5f);
 
 	}
 	
 
 	// Update is called once per frame
 	void Update () {
+        // temporary - turns the selection box on/off
         if (Input.GetKeyDown(KeyCode.A))
         {
             selecting = true;
@@ -79,7 +80,7 @@ public class MainScript : MonoBehaviour {
             if (Input.GetMouseButtonDown(0))
             {
                 SpriteRenderer rend = selector.GetComponent<SpriteRenderer>();
-                foreach (DNAScript dna in input_dna)
+                foreach (DNAScript dna in inputDNA)
                 {
                     dna.flipGenesInArea(Vector3.Scale(selector.transform.position - rend.sprite.bounds.extents, selector.transform.localScale),
                                           Vector3.Scale(selector.transform.position + rend.sprite.bounds.extents, selector.transform.localScale));
@@ -95,18 +96,16 @@ public class MainScript : MonoBehaviour {
     {
         isScreenAnimating = true;
         //print("new: " + newRule + " old " + active_rule);
-        Vector3 dir = rule_Screens[newRule].localPosition - rule_Screens[active_rule].localPosition;
+        Vector3 dir = ruleScreens[newRule].localPosition - ruleScreens[activeRule].localPosition;
+        Vector3 pos = rulesNode.transform.position;
 
-        Vector3 pos = rules_node.transform.position;
-
-        for (int i = 1; i <= steps; i++ )
+        for (int i = 1; i <= steps; i++)
         {
-            rules_node.transform.position = pos - (dir*(i*0.1f));
+            rulesNode.transform.position = pos - (dir * (i * 0.1f));
             yield return null;
         }
         isScreenAnimating = false;
     }
-
 
     void OnGUI()
     {
@@ -141,26 +140,27 @@ public class MainScript : MonoBehaviour {
 
         if (GUI.Button(new Rect(half - 55, 10, 50, 50), GUIContent.none) && isScreenAnimating == false)
         {
-            int newRule = Mathf.Clamp(active_rule - 1, (int)Rule.Split, (int)Rule.Flip_Y);
+            int newRule = Mathf.Clamp(activeRule - 1, (int)Rule.Split, (int)Rule.Flip_Y);
 
-            if (newRule != active_rule)
+            if (newRule != activeRule)
             {
                 //StopCoroutine("ModeSwitchAnimation");
                 StartCoroutine(ModeSwitchAnimation(newRule));
-                active_rule = newRule;
+                activeRule = newRule;
             }
         }
 
         if (GUI.Button(new Rect(half + 5, 10, 50, 50), GUIContent.none) && isScreenAnimating == false)
         {
-            int newRule = Mathf.Clamp(active_rule + 1, (int)Rule.Split, (int)Rule.Flip_Y);
+            int newRule = Mathf.Clamp(activeRule + 1, (int)Rule.Split, (int)Rule.Flip_Y);
 
-            if (newRule != active_rule)
+            if (newRule != activeRule)
             {
                 //StopCoroutine("ModeSwitchAnimation");
                 StartCoroutine(ModeSwitchAnimation(newRule));
-                active_rule = newRule;
+                activeRule = newRule;
             }
         }
     }
+	
 }

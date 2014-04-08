@@ -15,29 +15,8 @@ public class GeneScript : MonoBehaviour {
 	void Update () {
 	}
 
-    
-    void OnMouseDown()
-    {
-        //animator.SetBool("selected", true);
-        //animator.SetTrigger("playFlip");
-    }
-
     public void flip()
     {
         animator.SetTrigger("playFlip");
     }
-
-    /*
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        print("in");
-        animator.SetBool("selected", true);
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        print("out");
-        animator.SetBool("selected", false);
-    }
-    */
 }

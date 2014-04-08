@@ -84,6 +84,7 @@ GameObject:
   - 4: {fileID: 32303389}
   - 114: {fileID: 32303387}
   - 212: {fileID: 32303388}
+  - 61: {fileID: 32303390}
   m_Layer: 0
   m_Name: DNA2
   m_TagString: Untagged
@@ -139,6 +140,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!61 &32303390
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 32303386}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: 9.99999975e-05, y: 9.99999975e-05}
+  m_Center: {x: 0, y: 0}
 --- !u!1 &93398986
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +209,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400000, guid: f0af6fe6e2608924d94dbf81288cc8b3, type: 2}
+      propertyPath: inputDNA.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 400006, guid: f0af6fe6e2608924d94dbf81288cc8b3, type: 2}
       propertyPath: m_LocalPosition.x
       value: -.0651788712
@@ -237,6 +253,22 @@ Prefab:
       propertyPath: selector
       value: 
       objectReference: {fileID: 863009612}
+    - target: {fileID: 11400000, guid: f0af6fe6e2608924d94dbf81288cc8b3, type: 2}
+      propertyPath: goal_dna
+      value: 
+      objectReference: {fileID: 1184240230}
+    - target: {fileID: 11400000, guid: f0af6fe6e2608924d94dbf81288cc8b3, type: 2}
+      propertyPath: inputDNA.Array.data[0]
+      value: 
+      objectReference: {fileID: 1457822710}
+    - target: {fileID: 11400000, guid: f0af6fe6e2608924d94dbf81288cc8b3, type: 2}
+      propertyPath: inputDNA.Array.data[1]
+      value: 
+      objectReference: {fileID: 32303387}
+    - target: {fileID: 11400000, guid: f0af6fe6e2608924d94dbf81288cc8b3, type: 2}
+      propertyPath: goalDNA
+      value: 
+      objectReference: {fileID: 1184240230}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f0af6fe6e2608924d94dbf81288cc8b3, type: 2}
   m_RootGameObject: {fileID: 769847019}
@@ -372,16 +404,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 344b3c73d3af2574ca851185c9580173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  input_dna:
+  inputDNA:
   - {fileID: 1457822710}
   - {fileID: 32303387}
-  goal_dna: {fileID: 1184240230}
+  goalDNA: {fileID: 1184240230}
   selector: {fileID: 863009612}
-  rules_node: {fileID: 0}
-  rule_Screens: []
-  active_rule: 0
-  margin: 2.20000005
-  offets: {x: -6.5, y: .800000012}
+  rulesNode: {fileID: 0}
+  ruleScreens: []
+  activeRule: 0
+  margin: 1
+  offset: {x: 0, y: 0}
 --- !u!4 &769847021
 Transform:
   m_ObjectHideFlags: 0
@@ -428,6 +460,15 @@ Prefab:
     - target: {fileID: 400000, guid: 56e3eee8f6760ae40befa7a2e4175317, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: 56e3eee8f6760ae40befa7a2e4175317, type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b7e03a9c7eea71444a08b1fe88b7b723,
+        type: 3}
+    - target: {fileID: 21200000, guid: 56e3eee8f6760ae40befa7a2e4175317, type: 2}
+      propertyPath: m_SortingOrder
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 56e3eee8f6760ae40befa7a2e4175317, type: 2}
@@ -483,9 +524,9 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 11
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b7e03a9c7eea71444a08b1fe88b7b723, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &863009615
 Transform:
@@ -560,6 +601,7 @@ GameObject:
   - 4: {fileID: 1184240232}
   - 114: {fileID: 1184240230}
   - 212: {fileID: 1184240231}
+  - 61: {fileID: 1184240233}
   m_Layer: 0
   m_Name: goal
   m_TagString: Untagged
@@ -615,6 +657,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!61 &1184240233
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1184240229}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: 9.99999975e-05, y: 9.99999975e-05}
+  m_Center: {x: 0, y: 0}
 --- !u!1 &1277901962
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,6 +708,7 @@ GameObject:
   - 4: {fileID: 1457822711}
   - 114: {fileID: 1457822710}
   - 212: {fileID: 1457822712}
+  - 61: {fileID: 1457822713}
   m_Layer: 0
   m_Name: DNA1
   m_TagString: Untagged
@@ -710,6 +764,17 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!61 &1457822713
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1457822709}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Size: {x: 9.99999975e-05, y: 9.99999975e-05}
+  m_Center: {x: 0, y: 0}
 --- !u!1 &1561377094
 GameObject:
   m_ObjectHideFlags: 0
