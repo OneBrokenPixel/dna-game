@@ -17,10 +17,11 @@ public class MainScript : MonoBehaviour {
     public DNAScript goalDNA;
 
 
+
     // deals with rule and rule changes
     public Transform rulesNode;
     public Transform[] ruleScreens;
-    public int activeRule = (int)Rule.Split;
+    public static Rule activeRule = Rule.Split;
 
     public float margin = 1.0f;
     public Vector2 offset = new Vector2(0, 0);
@@ -29,6 +30,10 @@ public class MainScript : MonoBehaviour {
 	void Start () {
 
         DNAScript.sprites = Resources.LoadAll<Sprite>("dna");
+
+        CSelectionTools.s_input = inputDNA;
+        CSelectionTools.s_lastRule = activeRule;
+
 
         rulesNode = transform.FindChild("RuleScreens");
 
@@ -60,21 +65,30 @@ public class MainScript : MonoBehaviour {
         goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
         //goalDNA.transform.position = new Vector3(offset.x, -4.5f);
 
+
+
+        rule1.initalise(0,0);
 	}
-	
+
+    private Rule1Selector rule1 = new Rule1Selector();
 
 	// Update is called once per frame
 	void Update () {
+
+        Debug.DrawLine(rule1.dnaSelectionBounds.center, rule1.dnaSelectionBounds.center + Vector3.up*2, Color.blue);
+        Debug.DrawLine(rule1.dnaSelectionBounds.min, rule1.dnaSelectionBounds.max, Color.blue);
+        Debug.DrawLine(rule1.geneSelectionBounds.center, rule1.geneSelectionBounds.center + Vector3.up * 2, Color.green);
+        Debug.DrawLine(rule1.geneSelectionBounds.min, rule1.geneSelectionBounds.max, Color.green);
 	}
 
     int steps = 10;
     bool isScreenAnimating = false;
 
-    IEnumerator ModeSwitchAnimation(int newRule)
+    IEnumerator ModeSwitchAnimation(Rule newRule)
     {
         isScreenAnimating = true;
         //print("new: " + newRule + " old " + active_rule);
-        Vector3 dir = ruleScreens[newRule].localPosition - ruleScreens[activeRule].localPosition;
+        Vector3 dir = ruleScreens[(int)newRule].localPosition - ruleScreens[(int)activeRule].localPosition;
         Vector3 pos = rulesNode.transform.position;
 
         for (int i = 1; i <= steps; i++)
@@ -87,12 +101,12 @@ public class MainScript : MonoBehaviour {
 
     void OnGUI()
     {
-
+        
         float half = Screen.width / 2;
 
         if (GUI.Button(new Rect(half - 55, 10, 50, 50), GUIContent.none) && isScreenAnimating == false)
         {
-            int newRule = Mathf.Clamp(activeRule - 1, (int)Rule.Split, (int)Rule.Flip_Y);
+            Rule newRule = (Rule)Mathf.Clamp((int)activeRule - 1, (int)Rule.Split, (int)Rule.Flip_Y);
 
             if (newRule != activeRule)
             {
@@ -104,7 +118,7 @@ public class MainScript : MonoBehaviour {
 
         if (GUI.Button(new Rect(half + 5, 10, 50, 50), GUIContent.none) && isScreenAnimating == false)
         {
-            int newRule = Mathf.Clamp(activeRule + 1, (int)Rule.Split, (int)Rule.Flip_Y);
+            Rule newRule = (Rule)Mathf.Clamp((int)activeRule + 1, (int)Rule.Split, (int)Rule.Flip_Y);
 
             if (newRule != activeRule)
             {
@@ -113,6 +127,7 @@ public class MainScript : MonoBehaviour {
                 activeRule = newRule;
             }
         }
+
     }
 	
 }

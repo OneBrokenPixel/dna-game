@@ -13,6 +13,11 @@ public class DNAScript : MonoBehaviour
     public GeneScript[] topStrand;
     public GeneScript[] bottomStrand;
 
+    public int Length
+    {
+        get { return Mathf.Min(topStrand.Length, bottomStrand.Length); }
+    }
+
     public static Sprite[] sprites;
 
     // Use this for initialization
