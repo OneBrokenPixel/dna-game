@@ -16,8 +16,6 @@ public class MainScript : MonoBehaviour {
     public DNAScript[] inputDNA;
     public DNAScript goalDNA;
 
-    public GameObject selector;
-    private bool selecting;
 
     // deals with rule and rule changes
     public Transform rulesNode;
@@ -29,7 +27,6 @@ public class MainScript : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        selecting = true;
 
         DNAScript.sprites = Resources.LoadAll<Sprite>("dna");
 
@@ -62,32 +59,6 @@ public class MainScript : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        // temporary - turns the selection box on/off
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            selecting = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            selecting = false;
-            selector.transform.position = new Vector3(0, 0, -10);
-        }
-
-	    if (selecting)
-        {
-            Vector3 mPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            selector.transform.position = new Vector3(mPos.x, 0f, 0);
-
-            if (Input.GetMouseButtonDown(0))
-            {
-                SpriteRenderer rend = selector.GetComponent<SpriteRenderer>();
-                foreach (DNAScript dna in inputDNA)
-                {
-                    dna.flipGenesInArea(Vector3.Scale(selector.transform.position - rend.sprite.bounds.extents, selector.transform.localScale),
-                                          Vector3.Scale(selector.transform.position + rend.sprite.bounds.extents, selector.transform.localScale));
-                }
-            }
-        }
 	}
 
     int steps = 10;
