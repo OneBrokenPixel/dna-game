@@ -16,12 +16,11 @@ public class MainScript : MonoBehaviour {
     public DNAScript[] inputDNA;
     public DNAScript goalDNA;
 
-
-
     // deals with rule and rule changes
     public Transform rulesNode;
     public Transform[] ruleScreens;
     public static Rule activeRule = Rule.Split;
+    private int currentRule = 0;
 
     public float margin = 1.0f;
     public Vector2 offset = new Vector2(0, 0);
@@ -44,29 +43,13 @@ public class MainScript : MonoBehaviour {
             ruleScreens[i] = rulesNode.GetChild(i);
         }
 
-        // dna positioning calculations
-        float midpoint = (inputDNA.Length-1) * margin * 0.5f;
-        float accumOffset = -midpoint;
         foreach (DNAScript dna in inputDNA)
         {
             // This will be replaced by however we're loading in a level
             dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRr");
-               
-            //dna.transform.position = new Vector3(offset.x, offset.y + accumOffset, 0f);
-            /*
-            Vector3 spos = Camera.main.WorldToScreenPoint(dna.transform.position);
-            float dnaX = spos.x - (dna.length / 8 * 28);
-            print(spos + " " + dnaX);
-            dna.transform.position = Camera.main.ScreenToWorldPoint(new Vector3(dnaX, spos.y, 0));
-            accumOffset += margin;
-             * */
         }
 
         goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
-        //goalDNA.transform.position = new Vector3(offset.x, -4.5f);
-
-
-
         rule1.initalise(0,0);
 	}
 
@@ -79,8 +62,27 @@ public class MainScript : MonoBehaviour {
         Debug.DrawLine(rule1.dnaSelectionBounds.min, rule1.dnaSelectionBounds.max, Color.blue);
         Debug.DrawLine(rule1.geneSelectionBounds.center, rule1.geneSelectionBounds.center + Vector3.up * 2, Color.green);
         Debug.DrawLine(rule1.geneSelectionBounds.min, rule1.geneSelectionBounds.max, Color.green);
+
+        if ( Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E) )
+        {
+            currentRule = (currentRule + 1) % 4;
+            changeRules(currentRule);
+        }
+        else if ( Input.GetKeyDown(KeyCode.Q) )
+        {
+            currentRule = (currentRule - 1) % 4;
+            changeRules(currentRule);
+
+        }
 	}
 
+    private void changeRules(int nextRule)
+    {
+
+    }
+
+
+    /*
     int steps = 10;
     bool isScreenAnimating = false;
 
@@ -129,5 +131,5 @@ public class MainScript : MonoBehaviour {
         }
 
     }
-	
+	*/
 }
