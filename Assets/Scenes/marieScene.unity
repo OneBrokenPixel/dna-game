@@ -424,10 +424,8 @@ MonoBehaviour:
   - {fileID: 1457822710}
   - {fileID: 32303387}
   goalDNA: {fileID: 1184240230}
-  selector: {fileID: 863009612}
   rulesNode: {fileID: 0}
   ruleScreens: []
-  activeRule: 0
   margin: 2.20000005
   offset: {x: -7, y: 1.79999995}
 --- !u!4 &769847021

@@ -61,7 +61,7 @@ public class MainScript : MonoBehaviour {
 
 
 
-        rule1.initalise(0,15);
+        rule1.initalise(0,0);
 	}
 
     private Rule1Selector rule1 = new Rule1Selector();

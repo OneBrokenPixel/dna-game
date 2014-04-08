@@ -93,7 +93,6 @@ public class Rule1Selector : CSelectionTools
         }
 
         geneSelectionBounds.SetMinMax(min, max);
-
     }
 }
 
