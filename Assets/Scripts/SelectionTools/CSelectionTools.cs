@@ -40,16 +40,33 @@ public abstract class CSelectionTools
         set { _geneIndex = value; updateSelection(); } // updates selected array;
     }
 
+    static System.Collections.Generic.List<CSelectionTools> _tools;
+
     protected abstract void updateSelection(); // abstact member function that updates the selected array.
 
+    public void initalise()
+    {
+        updateSelection();
+    }
+
+    public void initalise(int dna, int gene)
+    {
+        _dnaIndex = dna;
+        _geneIndex = gene;
+
+        updateSelection();
+    }
 }
 
 public class Rule1Selector : CSelectionTools
 {
-
     protected override void updateSelection()
     {
-        if( selected.Length != 1)
+        if (s_input == null)
+        {
+            return;
+        }
+        if (selected == null || selected.Length != 1)
         {
             selected = new SelectedGenes[1];
             selected[0].topStrand = new GeneScript[4];
@@ -60,13 +77,22 @@ public class Rule1Selector : CSelectionTools
 
         DNAScript dna = s_input[_dnaIndex];
 
-        _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.Length-4);
+        dnaSelectionBounds = dna.renderer.bounds;
 
-        for( int i = _geneIndex; i < dna.Length-4; i++)
+        _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.Length-4);
+        Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+        for (int i = 0; i < 4; i++)
         {
-            selected[0].topStrand[i] = dna.topStrand[i];
-            selected[0].bottomStrand[i] = dna.bottomStrand[i];
+
+            selected[0].topStrand[i] = dna.topStrand[_geneIndex + i];
+            selected[0].bottomStrand[i] = dna.bottomStrand[_geneIndex + i];
+
+
+            min = Vector3.Min(selected[0].bottomStrand[i].renderer.bounds.min, min);
+            max = Vector3.Max(selected[0].topStrand[i].renderer.bounds.max, max);
         }
+
+        geneSelectionBounds.SetMinMax(min, max);
 
     }
 }

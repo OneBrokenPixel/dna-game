@@ -34,6 +34,7 @@ public class MainScript : MonoBehaviour {
         CSelectionTools.s_input = inputDNA;
         CSelectionTools.s_lastRule = activeRule;
 
+
         rulesNode = transform.FindChild("RuleScreens");
 
         ruleScreens = new Transform[rulesNode.childCount];
@@ -58,11 +59,20 @@ public class MainScript : MonoBehaviour {
         goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
         goalDNA.transform.position = new Vector3(offset.x, -4.5f);
 
+
+
+        rule1.initalise(0,15);
 	}
-	
+
+    private Rule1Selector rule1 = new Rule1Selector();
 
 	// Update is called once per frame
 	void Update () {
+
+        Debug.DrawLine(rule1.dnaSelectionBounds.center, rule1.dnaSelectionBounds.center + Vector3.up*2, Color.blue);
+        Debug.DrawLine(rule1.dnaSelectionBounds.min, rule1.dnaSelectionBounds.max, Color.blue);
+        Debug.DrawLine(rule1.geneSelectionBounds.center, rule1.geneSelectionBounds.center + Vector3.up * 2, Color.green);
+        Debug.DrawLine(rule1.geneSelectionBounds.min, rule1.geneSelectionBounds.max, Color.green);
 	}
 
     int steps = 10;
