@@ -17,6 +17,9 @@ public class MainScript : MonoBehaviour {
     public Transform[] rule_Screens;
     public int active_rule = (int)Rule.Split;
 
+    public float margin = 1.0f;
+    public Vector2 offets = new Vector2(0, 0);
+
     //public Rect buttonBar = new Rect(10, 10, 75, 200);
 
     //private DNAScript dnaScript;
@@ -36,11 +39,23 @@ public class MainScript : MonoBehaviour {
             rule_Screens[i] = rules_node.GetChild(i);
         }
 
+        float midpoint = (input_dna.Length-1) * margin * 0.5f;
+        float accumOffset = -midpoint;
         foreach (DNAScript dna in input_dna)
         {
+            //print(accumOffset);
             // This will be replaced by however we're loading in a level
-            dna.createDNA("rRGgbBYy", "yYBbgGRr");
+            dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRr");
+            dna.transform.position = new Vector3(offets.x, offets.y + accumOffset, 0f);
+
+            accumOffset += margin;
+
+            
         }
+
+        goal_dna.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
+        goal_dna.transform.position = new Vector3(offets.x, -4.5f);
+
 	}
 	
 
