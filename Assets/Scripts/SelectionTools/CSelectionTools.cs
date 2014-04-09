@@ -223,7 +223,7 @@ public class Rule4Selector : CSelectionTools
             for (int i = 0; i < dna.topStrand.Length; i++)
             {
 
-                selected[d].topStrand[i] = dna.topStrand[_geneIndex + i];
+                selected[d].topStrand[i] = dna.topStrand[i];
 
 
                 min = Vector3.Min(selected[d].topStrand[i].renderer.bounds.min, min);
