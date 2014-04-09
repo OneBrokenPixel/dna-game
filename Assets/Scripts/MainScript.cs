@@ -16,12 +16,18 @@ public class MainScript : MonoBehaviour {
     public DNAScript[] inputDNA;
     public DNAScript goalDNA;
 
-
-
     // deals with rule and rule changes
-    public Transform rulesNode;
-    public Transform[] ruleScreens;
+    //public Transform rulesNode;
+    //public Transform[] ruleScreens;
     public static Rule activeRule = Rule.Split;
+
+    public GameObject ruleDisplay;
+    private SpriteRenderer ruleBackRend;
+    private SpriteRenderer ruleSignRend;
+    private Sprite[] ruleBackSprites;
+    private Sprite[] ruleSignSprites;
+
+    private int currentRule = 0;
 
     public float margin = 1.0f;
     public Vector2 offset = new Vector2(0, 0);
@@ -29,39 +35,26 @@ public class MainScript : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        DNAScript.sprites = Resources.LoadAll<Sprite>("dna");
-
         CSelectionTools.s_input = inputDNA;
         CSelectionTools.s_lastRule = activeRule;
 
+        ruleBackRend = ruleDisplay.transform.FindChild("back").GetComponent<SpriteRenderer>();
+        ruleSignRend = ruleDisplay.transform.FindChild("sign").GetComponent<SpriteRenderer>();
 
-        rulesNode = transform.FindChild("RuleScreens");
+        ruleBackSprites = Resources.LoadAll<Sprite>("rule_back");
+        ruleSignSprites = Resources.LoadAll<Sprite>("rule_sign");
 
-        ruleScreens = new Transform[rulesNode.childCount];
-
-        for (int i = 0; i < rulesNode.childCount; i++)
-        {
-            ruleScreens[i] = rulesNode.GetChild(i);
-        }
-
-        // dna positioning calculations
-        float midpoint = (inputDNA.Length-1) * margin * 0.5f;
-        float accumOffset = -midpoint;
+        // This will be replaced by however we're loading in a level
         foreach (DNAScript dna in inputDNA)
         {
-            // This will be replaced by however we're loading in a level
             dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRr");
-            dna.transform.position = new Vector3(offset.x, offset.y + accumOffset, 0f);
-
-            accumOffset += margin;
         }
-
         goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
-        goalDNA.transform.position = new Vector3(offset.x, -4.5f);
 
+        changeRules(currentRule);
 
         foreach (CSelectionTools rule1 in rules)
-            rule1.initalise(0,0);
+        rule1.initalise(0,0);
 	}
 
     private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), new Rule3Selector(), new Rule4Selector() };
@@ -73,15 +66,54 @@ public class MainScript : MonoBehaviour {
         {
             Debug.DrawLine(rule1.dnaSelectionBounds.center, rule1.dnaSelectionBounds.center + Vector3.up * 2, Color.blue);
             Debug.DrawLine(rule1.dnaSelectionBounds.min, rule1.dnaSelectionBounds.max, Color.blue);
-            for (int i = 0; rule1.selected != null && i< rule1.selected.Length; i++)
+            for (int i = 0; rule1.selected != null && i < rule1.selected.Length; i++)
             {
                 Debug.DrawLine(rule1.selected[i].selectionBounds.center, rule1.selected[i].selectionBounds.center + Vector3.up * 2, Color.green);
                 Debug.DrawLine(rule1.selected[i].selectionBounds.min, rule1.selected[i].selectionBounds.max, Color.green);
             }
         }
 
+        if ( Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E) )
+        {
+            currentRule = (currentRule + 1) % 4;
+            changeRules(currentRule);
+        }
+        else if ( Input.GetKeyDown(KeyCode.Q) )
+        {
+            //currentRule = (currentRule - 1) % 4;
+            currentRule = (currentRule == 3) ? 0 : currentRule + 1;
+            changeRules(currentRule);
+        }
 	}
 
+    private void changeRules(int nextRule)
+    {
+        print(nextRule);
+        if (nextRule == 0 || nextRule == 1)
+        {
+            ruleBackRend.sprite = ruleBackSprites[1];
+            // do some stretching to fit dna size
+            ruleDisplay.transform.position = inputDNA[0].transform.position;
+        }
+        else if (nextRule == 2 || nextRule == 3)
+        {
+            // needs to be a check here that there
+            ruleBackRend.sprite = ruleBackSprites[0];
+            Vector3 pos = ruleDisplay.transform.position;
+            pos.y = (inputDNA[0].transform.position.y + inputDNA[1].transform.position.y) / 2;
+            ruleDisplay.transform.position = pos;
+        } 
+        ruleSignRend.sprite = ruleSignSprites[nextRule];
+        print(ruleBackRend.sprite.bounds.max);
+        ruleSignRend.transform.position = new Vector3(
+                                            ruleBackRend.bounds.max.x,
+                                            ruleBackRend.bounds.max.y,
+                                            0);
+
+	}
+
+
+    /*
     int steps = 10;
     bool isScreenAnimating = false;
 
@@ -130,5 +162,5 @@ public class MainScript : MonoBehaviour {
         }
 
     }
-	
+	*/
 }
