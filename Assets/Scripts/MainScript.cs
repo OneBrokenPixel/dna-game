@@ -68,8 +68,8 @@ public class MainScript : MonoBehaviour {
         Debug.DrawLine(rules[currentRule].dnaSelectionBounds.min, rules[currentRule].dnaSelectionBounds.max, Color.blue);
         for (int i = 0; rules[currentRule].selected != null && i < rules[currentRule].selected.Length; i++)
         {
-            Debug.DrawLine(rules[currentRule].selected[i].selectionBounds.center, rules[currentRule].selected[i].selectionBounds.center + Vector3.up * 2, Color.green);
-            Debug.DrawLine(rules[currentRule].selected[i].selectionBounds.min, rules[currentRule].selected[i].selectionBounds.max, Color.green);
+            Debug.DrawLine(rules[currentRule].selected[i].selectionBounds.center, rules[currentRule].selected[i].selectionBounds.center + Vector3.up * 2, Color.yellow);
+            Debug.DrawLine(rules[currentRule].selected[i].selectionBounds.min, rules[currentRule].selected[i].selectionBounds.max, Color.yellow);
         }
 
         if ( Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E) )

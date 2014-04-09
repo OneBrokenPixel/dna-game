@@ -94,7 +94,7 @@ public class Rule1Selector : CSelectionTools
         for (int i = 0; i < 4; i++)
         {
 
-            Debug.Log("ha" + selected[0].topStrand.Length);
+            //Debug.Log("ha" + selected[0].topStrand.Length);
             selected[0].topStrand[i] = dna.topStrand[_geneIndex + i];
             selected[0].bottomStrand[i] = dna.bottomStrand[_geneIndex + i];
 
