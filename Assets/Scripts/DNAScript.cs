@@ -18,11 +18,12 @@ public class DNAScript : MonoBehaviour
         get { return Mathf.Min(topStrand.Length, bottomStrand.Length); }
     }
 
-    public static Sprite[] sprites;
+    public Sprite[] sprites;
 
     // Use this for initialization
     public void Start()
     {
+        sprites = Resources.LoadAll<Sprite>("dna");
         length = 0;
     }
 
