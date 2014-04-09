@@ -60,19 +60,26 @@ public class MainScript : MonoBehaviour {
         goalDNA.transform.position = new Vector3(offset.x, -4.5f);
 
 
-
-        rule1.initalise(0,0);
+        foreach (CSelectionTools rule1 in rules)
+            rule1.initalise(0,0);
 	}
 
-    private Rule1Selector rule1 = new Rule1Selector();
+    private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), new Rule3Selector(), new Rule4Selector() };
 
 	// Update is called once per frame
 	void Update () {
 
-        Debug.DrawLine(rule1.dnaSelectionBounds.center, rule1.dnaSelectionBounds.center + Vector3.up*2, Color.blue);
-        Debug.DrawLine(rule1.dnaSelectionBounds.min, rule1.dnaSelectionBounds.max, Color.blue);
-        Debug.DrawLine(rule1.geneSelectionBounds.center, rule1.geneSelectionBounds.center + Vector3.up * 2, Color.green);
-        Debug.DrawLine(rule1.geneSelectionBounds.min, rule1.geneSelectionBounds.max, Color.green);
+        foreach (CSelectionTools rule1 in rules)
+        {
+            Debug.DrawLine(rule1.dnaSelectionBounds.center, rule1.dnaSelectionBounds.center + Vector3.up * 2, Color.blue);
+            Debug.DrawLine(rule1.dnaSelectionBounds.min, rule1.dnaSelectionBounds.max, Color.blue);
+            for (int i = 0; rule1.selected != null && i< rule1.selected.Length; i++)
+            {
+                Debug.DrawLine(rule1.selected[i].selectionBounds.center, rule1.selected[i].selectionBounds.center + Vector3.up * 2, Color.green);
+                Debug.DrawLine(rule1.selected[i].selectionBounds.min, rule1.selected[i].selectionBounds.max, Color.green);
+            }
+        }
+
 	}
 
     int steps = 10;
