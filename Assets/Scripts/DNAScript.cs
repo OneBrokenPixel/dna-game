@@ -48,18 +48,8 @@ public class DNAScript : MonoBehaviour
         float margin = 0.3f;    // padding between each gene
         Vector3 pos = new Vector3(transform.position.x, transform.position.y);
         
-        /*
-        for (int i = 0; i < length; i++)
-        {
-            topStrand[i] = createGene(top[i], pos, Quaternion.identity);
-
-            bottomStrand[i] = createGene(bottom[i], pos,Quaternion.Euler(new Vector3(0, 0, 180)));
-
-            pos.x += margin;
-        }
-        */
-
-        // trying something different - easier than positioning in main
+        // position the genes starting from the middle of the array
+        // this keeps the dna centred
         int mid = Mathf.CeilToInt(length/2);
         Vector3 leftPos = new Vector3(pos.x - margin, pos.y);
         Vector3 rightPos = new Vector3(pos.x, pos.y);
@@ -78,8 +68,6 @@ public class DNAScript : MonoBehaviour
             leftPos.x -= margin;
             rightPos.x += margin;
         }
-        
-
     }
 
     public GeneScript createGene(char type, Vector3 pos, Quaternion rot)
@@ -118,8 +106,6 @@ public class DNAScript : MonoBehaviour
                 sr.sprite = sprites[7];
                 break;
         }
-
-        //gene.AddComponent("BoxCollider2D");
         return gene.GetComponent<GeneScript>();
     }
 
