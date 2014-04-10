@@ -17,9 +17,9 @@ public class MainScript : MonoBehaviour {
     public DNAScript goalDNA;
 
     // deals with rule and rule changes
-    //public Transform rulesNode;
-    //public Transform[] ruleScreens;
     public static Rule activeRule = Rule.Split;
+    private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), 
+                                        new Rule3Selector(), new Rule4Selector() };
 
     public GameObject ruleDisplay;
     private SpriteRenderer ruleBackRend;
@@ -29,6 +29,7 @@ public class MainScript : MonoBehaviour {
 
     private int currentRule = 0;
 
+    // positioning
     public float margin = 1.0f;
     public Vector2 offset = new Vector2(0, 0);
 
@@ -51,6 +52,7 @@ public class MainScript : MonoBehaviour {
         }
         goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
 
+        // start at rule 0
         changeRules(currentRule);
 
         foreach (CSelectionTools rule1 in rules)
@@ -58,8 +60,6 @@ public class MainScript : MonoBehaviour {
             rule1.initalise(0, 0);
         }
 	}
-
-    private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), new Rule3Selector(), new Rule4Selector() };
 
 	// Update is called once per frame
 	void Update () {
@@ -100,6 +100,25 @@ public class MainScript : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
         {
             rules[currentRule].geneIndex++;
+        }
+
+        // perform action (i.e flip or swap according to rule selected)
+        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
+        {
+            CSelectionTools.SelectedGenes[] sel = rules[currentRule].selected;
+            print("mouse down");
+            // right now, we only flip genes
+            for (int i = 0; i < sel.Length; i++)
+            {
+                GeneScript[] gs = sel[i].topStrand;
+                print(gs.Length + " " + gs[0].transform.position);
+
+                for (int j = 0; j < gs.Length; j++)
+                {
+
+                }
+            }
+
         }
 	}
 
