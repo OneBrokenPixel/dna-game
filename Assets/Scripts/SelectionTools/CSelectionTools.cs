@@ -15,14 +15,14 @@ public abstract class CSelectionTools
 
     public struct SelectedGenes // struct of selected genes
     {
-        public GeneScript[] topSelected;
-        public GeneScript[] bottomSelected;
+        public GeneScript[] firstSelected;
+        public GeneScript[] secondSelected;
         public Bounds selectionBounds;
 
         public void init(int top, int bottom)
         {
-            topSelected = new GeneScript[top];
-            bottomSelected = new GeneScript[bottom];
+            firstSelected = new GeneScript[top];
+            secondSelected = new GeneScript[bottom];
             selectionBounds = new Bounds();
         }
     }
@@ -95,12 +95,12 @@ public class Rule1Selector : CSelectionTools
         {
 
             //Debug.Log("ha" + selected[0].topStrand.Length);
-            selected[0].topSelected[i] = dna.topStrand[_geneIndex + i];
-            selected[0].bottomSelected[i] = dna.bottomStrand[_geneIndex + i];
+            selected[0].firstSelected[i] = dna.topStrand[_geneIndex + i];
+            selected[0].secondSelected[i] = dna.bottomStrand[_geneIndex + i];
 
 
-            min = Vector3.Min(selected[0].bottomSelected[i].renderer.bounds.min, min);
-            max = Vector3.Max(selected[0].topSelected[i].renderer.bounds.max, max);
+            min = Vector3.Min(selected[0].secondSelected[i].renderer.bounds.min, min);
+            max = Vector3.Max(selected[0].firstSelected[i].renderer.bounds.max, max);
         }
 
         selected[0].selectionBounds.SetMinMax(min, max);
@@ -134,12 +134,12 @@ public class Rule2Selector : CSelectionTools
         for (int i = 0; i < 8; i++)
         {
 
-            selected[0].topSelected[i] = dna.topStrand[_geneIndex + i];
-            selected[0].bottomSelected[i] = dna.bottomStrand[_geneIndex + i];
+            selected[0].firstSelected[i] = dna.topStrand[_geneIndex + i];
+            selected[0].secondSelected[i] = dna.bottomStrand[_geneIndex + i];
 
 
-            min = Vector3.Min(selected[0].bottomSelected[i].renderer.bounds.min, min);
-            max = Vector3.Max(selected[0].topSelected[i].renderer.bounds.max, max);
+            min = Vector3.Min(selected[0].secondSelected[i].renderer.bounds.min, min);
+            max = Vector3.Max(selected[0].firstSelected[i].renderer.bounds.max, max);
         }
         selected[0].selectionBounds.SetMinMax(min, max);
     }
@@ -176,12 +176,12 @@ public class Rule3Selector : CSelectionTools
             for (int i = 0; i < 4; i++)
             {
 
-                selected[d].topSelected[i] = dna.topStrand[_geneIndex + i];
-                selected[d].bottomSelected[i] = dna.bottomStrand[_geneIndex + i];
+                selected[d].firstSelected[i] = dna.topStrand[_geneIndex + i];
+                selected[d].secondSelected[i] = dna.bottomStrand[_geneIndex + i];
 
 
-                min = Vector3.Min(selected[d].bottomSelected[i].renderer.bounds.min, min);
-                max = Vector3.Max(selected[d].topSelected[i].renderer.bounds.max, max);
+                min = Vector3.Min(selected[d].secondSelected[i].renderer.bounds.min, min);
+                max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
             }
             selected[d].selectionBounds.SetMinMax(min, max);
 
@@ -223,11 +223,11 @@ public class Rule4Selector : CSelectionTools
             for (int i = 0; i < dna.topStrand.Length; i++)
             {
 
-                selected[d].topSelected[i] = dna.topStrand[i];
+                selected[d].firstSelected[i] = dna.topStrand[i];
 
 
-                min = Vector3.Min(selected[d].topSelected[i].renderer.bounds.min, min);
-                max = Vector3.Max(selected[d].topSelected[i].renderer.bounds.max, max);
+                min = Vector3.Min(selected[d].firstSelected[i].renderer.bounds.min, min);
+                max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
             }
             selected[d].selectionBounds.SetMinMax(min, max);
         }

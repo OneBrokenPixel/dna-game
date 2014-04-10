@@ -106,16 +106,20 @@ public class MainScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
         {
             CSelectionTools.SelectedGenes[] sel = rules[currentRule].selected;
-            print("mouse down");
-            // right now, we only flip genes
+
+            // right now, we can only flip genes
             for (int i = 0; i < sel.Length; i++)
             {
-                GeneScript[] gs = sel[i].topStrand;
-                print(gs.Length + " " + gs[0].transform.position);
+                GeneScript[] first = sel[i].firstSelected;
+                GeneScript[] second = sel[i].secondSelected;
 
-                for (int j = 0; j < gs.Length; j++)
+                for (int j = 0; j < first.Length; j++)
                 {
-
+                    Vector3 firstPos = first[j].transform.position;
+                    Vector3 secondPos = second[j].transform.position;
+                    print(firstPos + " " + secondPos);
+                    first[j].flipFrom(secondPos);
+                    second[j].flipFrom(firstPos);
                 }
             }
 
