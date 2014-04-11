@@ -55,11 +55,6 @@ public class DNAScript : MonoBehaviour
 
 
 
-    public int Length
-    {
-        get { return Mathf.Min(topStrand.Length, bottomStrand.Length); }
-    }
-
     public void createDNA(string top, string bottom)
     {
         if (top.Length != bottom.Length)

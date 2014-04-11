@@ -16,7 +16,7 @@ public class GeneScript : MonoBehaviour {
         animator = GetComponent<Animator>() as Animator;
         //spriteRenderer = GetComponent<SpriteRenderer>();
            
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -30,10 +30,13 @@ public class GeneScript : MonoBehaviour {
     public float flipFrom(Vector3 pos)
     {
         transform.position = pos;
-        //transform.rotation = Quaternion.Euler(0, 0, 180);
+        //transform.rotation *= Quaternion.Euler(0, 0, 180);
         flip();
         return animator.playbackTime;
 
+    internal bool compare(GeneScript geneScript)
+    {
+        return spriteRenderer.sprite.Equals(geneScript.spriteRenderer.sprite);
     }
 
     public void changeType(char colour)

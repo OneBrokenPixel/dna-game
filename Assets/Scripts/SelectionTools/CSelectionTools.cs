@@ -87,7 +87,7 @@ public class Rule1Selector : CSelectionTools
 
         dnaSelectionBounds = dna.renderer.bounds;
 
-        _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.Length-4);
+        _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length-4);
 
         Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
@@ -129,7 +129,7 @@ public class Rule2Selector : CSelectionTools
 
         dnaSelectionBounds = dna.renderer.bounds;
 
-        _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.Length - 8);
+        _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 8);
         Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
         for (int i = 0; i < 8; i++)
         {
@@ -171,7 +171,7 @@ public class Rule3Selector : CSelectionTools
         {
             DNAScript dna = s_input[_dnaIndex+d];
             dnaSelectionBounds = dna.renderer.bounds;
-            _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.Length - 4);
+            _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
             for (int i = 0; i < 4; i++)
             {
@@ -204,7 +204,7 @@ public class Rule4Selector : CSelectionTools
 
         _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length - 2);
 
-        int len = s_input[_dnaIndex].Length;
+        int len = s_input[_dnaIndex].length;
         if (selected == null || selected.Length != 2)
         {
             selected = new SelectedGenes[2];
@@ -218,7 +218,7 @@ public class Rule4Selector : CSelectionTools
         {
             DNAScript dna = s_input[_dnaIndex + d];
             dnaSelectionBounds = dna.renderer.bounds;
-            _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.Length - 4);
+            _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
             Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
             for (int i = 0; i < dna.topStrand.Length; i++)
             {
