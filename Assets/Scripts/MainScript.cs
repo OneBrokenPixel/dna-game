@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// Attached to: Empty game object.
+// Attached to: Empty game object in scene.
 // Needs: 1 goal
 //        1+ dna scene objects.
 
@@ -48,9 +48,9 @@ public class MainScript : MonoBehaviour {
         // This will be replaced by however we're loading in a level
         foreach (DNAScript dna in inputDNA)
         {
-            dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRr");
+            dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
         }
-        goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
+        goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRy", "rRGgbBYyrRGgbBYyrRGgbBYy");
 
         // start at rule 0
         changeRules(currentRule);
@@ -115,16 +115,27 @@ public class MainScript : MonoBehaviour {
 
                 for (int j = 0; j < first.Length; j++)
                 {
-                    Vector3 firstPos = first[j].transform.position;
-                    Vector3 secondPos = second[j].transform.position;
-                    print(firstPos + " " + secondPos);
-                    first[j].flipFrom(secondPos);
-                    second[j].flipFrom(firstPos);
+                    flip(first[j], second[j]);
                 }
             }
 
         }
 	}
+
+    public void flip(GeneScript first, GeneScript second)
+    {
+        Vector3 firstPos = first.transform.position;
+        Vector3 secondPos = second.transform.position;
+
+        char firstColour = first.colour;
+        char secondColour = second.colour;
+
+        float timeF = first.flipFrom(secondPos);
+        float timeS = second.flipFrom(firstPos);
+
+        first.changeType(secondColour);
+        second.changeType(firstColour);
+    }
 
     // move to the next rule, and change the background to reflect this
     private void changeRules(int nextRule)

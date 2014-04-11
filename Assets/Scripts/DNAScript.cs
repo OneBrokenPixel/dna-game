@@ -13,7 +13,32 @@ public class DNAScript : MonoBehaviour
     public GeneScript[] topStrand;
     public GeneScript[] bottomStrand;
 
-    public Sprite[] sprites;
+    public static Sprite[] sprites;
+
+    public static Sprite getSprite(char colour)
+    {
+        switch (colour)
+        {
+            case 'R':
+                return sprites[2];
+            case 'r':
+                return sprites[8];
+            case 'B':
+                return sprites[1];
+            case 'b':
+                return sprites[5];
+            case 'G':
+                return sprites[0];
+            case 'g':
+                return sprites[6];
+            case 'Y':
+                return sprites[4];
+            case 'y':
+                return sprites[7];
+            default:
+                return null;
+        }
+    }
 
     // Use this for initialization
     public void Start()
@@ -27,6 +52,8 @@ public class DNAScript : MonoBehaviour
     {
 
     }
+
+
 
     public int Length
     {
@@ -73,42 +100,21 @@ public class DNAScript : MonoBehaviour
     public GeneScript createGene(char type, Vector3 pos, Quaternion rot)
     {
         GameObject gene;
-        SpriteRenderer sr;
+        GeneScript script;
 
         gene = Instantiate(Gene,pos, rot) as GameObject;
-        gene.transform.parent = transform;
-        sr = gene.GetComponent<SpriteRenderer>();
+        script = gene.GetComponent<GeneScript>();
+        changeColour(script, type);
 
-        switch (type)
-        {
-            case 'R':
-                sr.sprite = sprites[2];
-                break;
-            case 'r':
-                sr.sprite = sprites[8];
-                break;
-            case 'B':
-                sr.sprite = sprites[1];
-                break;
-            case 'b':
-                sr.sprite = sprites[5];
-                break;
-            case 'G':
-                sr.sprite = sprites[0];
-                break;
-            case 'g':
-                sr.sprite = sprites[6];
-                break;
-            case 'Y':
-                sr.sprite = sprites[4];
-                break;
-            case 'y':
-                sr.sprite = sprites[7];
-                break;
-        }
-        return gene.GetComponent<GeneScript>();
+        return script;
     }
 
+
+    public void changeColour(GeneScript script, char colour)
+    {
+        //Sprite sprite = getSprite(colour);
+        script.changeType(colour);
+    }
 
     // flips genes in a box area - temporary, will be changed later
     public void flipGenesInArea(Vector3 bottomLeft, Vector3 topRight)
