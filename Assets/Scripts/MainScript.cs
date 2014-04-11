@@ -39,6 +39,9 @@ public class MainScript : MonoBehaviour {
         CSelectionTools.s_input = inputDNA;
         CSelectionTools.s_lastRule = activeRule;
 
+        CComparasonTools.s_input = inputDNA;
+        CComparasonTools.s_goal = goalDNA;
+
         ruleBackRend = ruleDisplay.transform.FindChild("back").GetComponent<SpriteRenderer>();
         ruleSignRend = ruleDisplay.transform.FindChild("sign").GetComponent<SpriteRenderer>();
 
@@ -50,7 +53,7 @@ public class MainScript : MonoBehaviour {
         {
             dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRr");
         }
-        goalDNA.createDNA("yYBbgGRryYBbgGRryYBbgGRr", "rRGgbBYyrRGgbBYyrRGgbBYy");
+        goalDNA.createDNA("rRGggGRryYBbgGRryYBbgGRr", "yYBbbBYyrRGgbBYyrRGgbBYy");
 
         // start at rule 0
         changeRules(currentRule);
@@ -123,6 +126,11 @@ public class MainScript : MonoBehaviour {
                 }
             }
 
+        }
+
+        foreach( float v in CComparasonTools.compare())
+        {
+            Debug.Log(v);
         }
 	}
 
