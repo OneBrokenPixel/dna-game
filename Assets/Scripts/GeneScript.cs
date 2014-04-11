@@ -4,7 +4,18 @@ using System.Collections;
 public class GeneScript : MonoBehaviour {
 
     Animator animator;
-    //SpriteRenderer spriteRenderer;
+    internal SpriteRenderer _r;
+    SpriteRenderer spriteRenderer
+    {
+        get
+        {
+            if(_r == null)
+                _r = GetComponent<SpriteRenderer>();
+            return _r;
+        }
+
+    }
+
     [HideInInspector]
     public char colour { get; private set; }
 
@@ -33,15 +44,16 @@ public class GeneScript : MonoBehaviour {
         //transform.rotation *= Quaternion.Euler(0, 0, 180);
         flip();
         return animator.playbackTime;
+    }
 
     internal bool compare(GeneScript geneScript)
     {
-        return spriteRenderer.sprite.Equals(geneScript.spriteRenderer.sprite);
+        return colour == geneScript.colour;
     }
 
     public void changeType(char colour)
     {
         this.colour = colour;
-        GetComponent<SpriteRenderer>().sprite = DNAScript.getSprite(colour);
+        spriteRenderer.sprite = DNAScript.getSprite(colour);
     }
 }
