@@ -106,7 +106,6 @@ MonoBehaviour:
   Gene: {fileID: 100000, guid: 2b9ed58b2c27ef34f999ebbafb3d0992, type: 2}
   topStrand: []
   bottomStrand: []
-  sprites: []
 --- !u!212 &32303388
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -137,7 +136,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 32303386}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -422,7 +421,6 @@ MonoBehaviour:
   Gene: {fileID: 100000, guid: 2b9ed58b2c27ef34f999ebbafb3d0992, type: 2}
   topStrand: []
   bottomStrand: []
-  sprites: []
 --- !u!212 &1184240231
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -550,7 +548,6 @@ MonoBehaviour:
   Gene: {fileID: 100000, guid: 2b9ed58b2c27ef34f999ebbafb3d0992, type: 2}
   topStrand: []
   bottomStrand: []
-  sprites: []
 --- !u!4 &1457822711
 Transform:
   m_ObjectHideFlags: 0
@@ -558,7 +555,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1457822709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.5, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

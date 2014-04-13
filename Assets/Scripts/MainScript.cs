@@ -53,6 +53,7 @@ public class MainScript : MonoBehaviour {
         {
             dna.createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
         }
+
         goalDNA.createDNA("rRGggGRryYBbgGRryYBbgGRr", "yYBbbBYyrRGgbBYyrRGgbBYy");
 
         // start at rule 0
@@ -90,11 +91,14 @@ public class MainScript : MonoBehaviour {
         // move the selection box
         if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.UpArrow)))
         {
-            rules[currentRule].dnaIndex++;
+            rules[currentRule].dnaIndex--;
+            hightlightDNA();
+
         }
         else if(Input.GetKeyDown(KeyCode.S) || (Input.GetKeyDown(KeyCode.DownArrow)) )
         {
-            rules[currentRule].dnaIndex--;
+            rules[currentRule].dnaIndex++;
+            hightlightDNA();
         }
         if (Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow)))
         {
@@ -104,6 +108,7 @@ public class MainScript : MonoBehaviour {
         {
             rules[currentRule].geneIndex++;
         }
+
 
         // perform action (i.e flip or swap according to rule selected)
         if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
@@ -124,11 +129,46 @@ public class MainScript : MonoBehaviour {
 
         }
 
+        /*
         foreach( float v in CComparasonTools.compare())
         {
             Debug.Log(v);
         }
+         * */
 	}
+
+    public void hightlightDNA()
+    {
+        int dnaIndex = rules[currentRule].dnaIndex;
+
+        // move the selection box and dna highlighter to the relevant dna
+        if (currentRule == 0 || currentRule == 1)
+        {
+            ruleDisplay.transform.position = inputDNA[dnaIndex].transform.position;
+        }
+        else if (currentRule == 2 || currentRule == 3)
+        {
+            float y1 = 0;
+            float y2 = 0;
+            // if we use more than 3 dna, this will have to be changed
+            if (dnaIndex == 0)
+            {
+                y1 = inputDNA[0].transform.position.y;
+                y2 = inputDNA[1].transform.position.y;
+            }
+            else if (dnaIndex == 1)
+            {
+                y1 = inputDNA[1].transform.position.y;
+                y2 = inputDNA[2].transform.position.y;
+            }
+
+            Vector3 pos = ruleDisplay.transform.position;
+            float midPoint = (y1 + y2) / 2;
+            Vector3 newPos = new Vector3(pos.x, midPoint, 0);
+            ruleDisplay.transform.position = newPos;
+
+        }
+    }
 
     public void flip(GeneScript first, GeneScript second)
     {
@@ -156,7 +196,8 @@ public class MainScript : MonoBehaviour {
         }
         else if (nextRule == 2 || nextRule == 3)
         {
-            // needs to be a check here that there
+            // needs to be a check here that there are 2+ dna
+            // (otherwise rules 2 and 3 don't make sense)
             ruleBackRend.sprite = ruleBackSprites[0];
             Vector3 pos = ruleDisplay.transform.position;
             pos.y = (inputDNA[0].transform.position.y + inputDNA[1].transform.position.y) / 2;
@@ -167,6 +208,10 @@ public class MainScript : MonoBehaviour {
                                             ruleBackRend.bounds.max.x,
                                             ruleBackRend.bounds.max.y,
                                             0);
+
+        // reset highlighter and selection box to first dna
+        rules[currentRule].dnaIndex = 0;
+        hightlightDNA();
 
 	}
 
