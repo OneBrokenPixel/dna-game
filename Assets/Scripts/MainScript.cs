@@ -86,7 +86,7 @@ public class MainScript : MonoBehaviour {
             string bottom = levels[startLevel].InputDNA[i].bottom;
             inputDNA[i].createDNA(top, bottom);
         }
-        //print(levels[startLevel].GoalDNA.top.Length);
+
         goalDNA.createDNA(levels[startLevel].GoalDNA.top, levels[startLevel].GoalDNA.bottom);
 
         // start at rule 0
