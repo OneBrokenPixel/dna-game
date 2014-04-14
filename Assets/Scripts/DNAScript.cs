@@ -67,7 +67,7 @@ public class DNAScript : MonoBehaviour
         topStrand = new GeneScript[length];
         bottomStrand = new GeneScript[length];
 
-        float margin = 0.3f;    // padding between each gene
+        float margin = 0.35f;    // padding between each gene
         Vector3 pos = new Vector3(transform.position.x, transform.position.y);
         
         // position the genes starting from the middle of the array
