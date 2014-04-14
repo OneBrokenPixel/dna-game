@@ -22,10 +22,12 @@ public class MainScript : MonoBehaviour {
                                         new Rule3Selector(), new Rule4Selector() };
 
     public GameObject ruleDisplay;
+    public SpriteRenderer selBox;
     private SpriteRenderer ruleBackRend;
     private SpriteRenderer ruleSignRend;
     private Sprite[] ruleBackSprites;
     private Sprite[] ruleSignSprites;
+    private Sprite[] selBoxSprites;
 
     private int currentRule = 0;
 
@@ -44,18 +46,35 @@ public class MainScript : MonoBehaviour {
 
         CComparisonTools.s_input = inputDNA;
         CComparisonTools.s_goal = goalDNA;
-        
+
         ruleBackRend = ruleDisplay.transform.FindChild("back").GetComponent<SpriteRenderer>();
         ruleSignRend = ruleDisplay.transform.FindChild("sign").GetComponent<SpriteRenderer>();
 
         ruleBackSprites = Resources.LoadAll<Sprite>("rule_back");
         ruleSignSprites = Resources.LoadAll<Sprite>("rule_sign");
+        selBoxSprites = Resources.LoadAll<Sprite>("selection");
 
         levels = CLoadLevelTools.LoadLevels("Levels");
 
         startLevel = Mathf.Clamp(startLevel,0,levels.Length-1);
 
         // This will be replaced by however we're loading in a level
+
+        /*
+        // This will be replaced by however we're loading in a level
+        inputDNA[0].createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
+        Vector3 pos = inputDNA[0].transform.position;
+        float y = pos.y;
+        for (var i = 1; i < inputDNA.Length; i++)
+        {    
+            inputDNA[i].createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
+            // position dna relative to the first
+            y -= 2.6f;
+            inputDNA[i].transform.position = new Vector3(pos.x, y, 0);
+            
+        }
+         */
+
         foreach (DNAScript dna in inputDNA)
         {
             dna.clearGenes();
@@ -67,7 +86,7 @@ public class MainScript : MonoBehaviour {
             string bottom = levels[startLevel].InputDNA[i].bottom;
             inputDNA[i].createDNA(top, bottom);
         }
-        print(levels[startLevel].GoalDNA.top.Length);
+        //print(levels[startLevel].GoalDNA.top.Length);
         goalDNA.createDNA(levels[startLevel].GoalDNA.top, levels[startLevel].GoalDNA.bottom);
 
         // start at rule 0
@@ -106,13 +125,13 @@ public class MainScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.UpArrow)))
         {
             rules[currentRule].dnaIndex--;
-            hightlightDNA();
+            highlightDNA();
 
         }
         else if(Input.GetKeyDown(KeyCode.S) || (Input.GetKeyDown(KeyCode.DownArrow)) )
         {
             rules[currentRule].dnaIndex++;
-            hightlightDNA();
+            highlightDNA();
         }
         if (Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow)))
         {
@@ -151,7 +170,7 @@ public class MainScript : MonoBehaviour {
          * */
 	}
 
-    public void hightlightDNA()
+    public void highlightDNA()
     {
         int dnaIndex = rules[currentRule].dnaIndex;
 
@@ -159,6 +178,8 @@ public class MainScript : MonoBehaviour {
         if (currentRule == 0 || currentRule == 1)
         {
             ruleDisplay.transform.position = inputDNA[dnaIndex].transform.position;
+            selBox.sprite = selBoxSprites[1];
+            selBox.transform.position = rules[currentRule].selected[0].selectionBounds.center;
         }
         else if (currentRule == 2 || currentRule == 3)
         {
@@ -225,7 +246,7 @@ public class MainScript : MonoBehaviour {
 
         // reset highlighter and selection box to first dna
         rules[currentRule].dnaIndex = 0;
-        hightlightDNA();
+        highlightDNA();
 
 	}
 
