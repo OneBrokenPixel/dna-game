@@ -105,6 +105,16 @@ public class DNAScript : MonoBehaviour
         return script;
     }
 
+    public void clearGenes()
+    {
+        for( int i = 0; i <transform.childCount; i++ )
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
+        topStrand = null;
+        bottomStrand = null;
+        length = 0;
+    }
 
     public void changeColour(GeneScript script, char colour)
     {

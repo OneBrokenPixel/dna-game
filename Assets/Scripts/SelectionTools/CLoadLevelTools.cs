@@ -7,43 +7,57 @@ using UnityEngine;
 
 class CLoadLevelTools
 {
-
     public struct SLevel
     {
-        public DNAScript[] InputDNA;
-        public DNAScript GoalDNA;
+        public struct SDNA
+        {
+            public string top;
+            public string bottom;
+        }
+
+        public SDNA[] InputDNA;
+        public SDNA GoalDNA;
     }
 
+    /*
+             string[] dna = levels[i].Split('\n');
 
+            Debug.Log(dna.Length);
+
+            sLevels[i].InputDNA = new SLevel.SDNA[dna.Length - 1];
+            int j = 0;
+            for ( j = 0; j < (dna.Length - 2); j++)
+            {
+                LoadDNA(dna[j], ref sLevels[i].InputDNA[j]);
+            }
+            LoadDNA(dna[j], ref sLevels[i].GoalDNA);
+     */
     public static SLevel[] LoadLevels( string filename )
     {
         TextAsset levelsText = Resources.Load(filename) as TextAsset;
-
-        string[] levels = levelsText.text.Split('-');
+        string[] levels = levelsText.text.Replace("\n", "").Split('-');
 
         SLevel[] sLevels = new SLevel[levels.Length];
 
         for (int i = 0; i < levels.Length; i++ )
         {
-            string[] dna = levels[i].Split('\n');
-            
-            sLevels[i].InputDNA = new DNAScript[dna.Length-1];
-            for (int j = 0; j < dna.Length - 1; j++)
+            string[] dna = levels[i].Replace("\n", "").Split('/');
+            sLevels[i].InputDNA = new SLevel.SDNA[dna.Length - 1];
+            int j = 0;
+            for (j = 0; j < dna.Length - 1; j++)
             {
                 LoadDNA(dna[j], ref sLevels[i].InputDNA[j]);
             }
-            LoadDNA(dna[dna.Length - 1], ref sLevels[i].GoalDNA);
-
+            LoadDNA(dna[j], ref sLevels[i].GoalDNA);
         }
         return sLevels;
     }
 
-    private static void LoadDNA(string dna, ref DNAScript InputDNA)
+    private static void LoadDNA(string dna, ref SLevel.SDNA InputDNA)
     {
         string[] t_b = dna.Split(',');
-        InputDNA = new DNAScript();
-        InputDNA.createDNA(t_b[0], t_b[1]);
-        Debug.Log(t_b[0] + " " + t_b[1]);
+        InputDNA.top = t_b[0].Replace("\u000D", "");
+        InputDNA.bottom = t_b[1].Replace("\u000D", "");
+    
     }
-
 }

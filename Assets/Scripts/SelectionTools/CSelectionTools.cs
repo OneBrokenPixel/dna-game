@@ -171,19 +171,22 @@ public class Rule3Selector : CSelectionTools
         {
             DNAScript dna = s_input[_dnaIndex+d];
             dnaSelectionBounds = dna.renderer.bounds;
-            _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
-            Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-            for (int i = 0; i < 4; i++)
+            if (dna.length != 0)
             {
+                _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
+                Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+                for (int i = 0; i < 4; i++)
+                {
 
-                selected[d].firstSelected[i] = dna.topStrand[_geneIndex + i];
-                selected[d].secondSelected[i] = dna.bottomStrand[_geneIndex + i];
+                    selected[d].firstSelected[i] = dna.topStrand[_geneIndex + i];
+                    selected[d].secondSelected[i] = dna.bottomStrand[_geneIndex + i];
 
 
-                min = Vector3.Min(selected[d].secondSelected[i].renderer.bounds.min, min);
-                max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
+                    min = Vector3.Min(selected[d].secondSelected[i].renderer.bounds.min, min);
+                    max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
+                }
+                selected[d].selectionBounds.SetMinMax(min, max);
             }
-            selected[d].selectionBounds.SetMinMax(min, max);
 
         }
 
@@ -218,18 +221,21 @@ public class Rule4Selector : CSelectionTools
         {
             DNAScript dna = s_input[_dnaIndex + d];
             dnaSelectionBounds = dna.renderer.bounds;
-            _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
-            Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-            for (int i = 0; i < dna.topStrand.Length; i++)
+            if (dna.length != 0)
             {
+                _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
+                Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+                for (int i = 0; i < dna.topStrand.Length; i++)
+                {
 
-                selected[d].firstSelected[i] = dna.topStrand[i];
+                    selected[d].firstSelected[i] = dna.topStrand[i];
 
 
-                min = Vector3.Min(selected[d].firstSelected[i].renderer.bounds.min, min);
-                max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
+                    min = Vector3.Min(selected[d].firstSelected[i].renderer.bounds.min, min);
+                    max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
+                }
+                selected[d].selectionBounds.SetMinMax(min, max);
             }
-            selected[d].selectionBounds.SetMinMax(min, max);
         }
     }
 }

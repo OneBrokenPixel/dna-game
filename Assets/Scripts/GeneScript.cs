@@ -43,7 +43,8 @@ public class GeneScript : MonoBehaviour {
         transform.position = pos;
         //transform.rotation *= Quaternion.Euler(0, 0, 180);
         flip();
-        return animator.playbackTime;
+        return 0;
+        //return animator.playbackTime;
     }
 
     internal bool compare(GeneScript geneScript)
