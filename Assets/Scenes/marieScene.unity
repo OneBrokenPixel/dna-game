@@ -106,7 +106,6 @@ MonoBehaviour:
   Gene: {fileID: 100000, guid: 2b9ed58b2c27ef34f999ebbafb3d0992, type: 2}
   topStrand: []
   bottomStrand: []
-  sprites: []
 --- !u!212 &32303388
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -422,7 +421,6 @@ MonoBehaviour:
   Gene: {fileID: 100000, guid: 2b9ed58b2c27ef34f999ebbafb3d0992, type: 2}
   topStrand: []
   bottomStrand: []
-  sprites: []
 --- !u!212 &1184240231
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -550,7 +548,6 @@ MonoBehaviour:
   Gene: {fileID: 100000, guid: 2b9ed58b2c27ef34f999ebbafb3d0992, type: 2}
   topStrand: []
   bottomStrand: []
-  sprites: []
 --- !u!4 &1457822711
 Transform:
   m_ObjectHideFlags: 0

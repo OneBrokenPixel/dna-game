@@ -5,7 +5,7 @@ using System.Text;
 
 using UnityEngine;
 
-class CComparasonTools
+class CComparisonTools
 {
     public static DNAScript[] s_input; // is reference to input array
     public static DNAScript s_goal;

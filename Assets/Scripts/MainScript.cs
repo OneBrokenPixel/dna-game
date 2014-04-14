@@ -39,14 +39,16 @@ public class MainScript : MonoBehaviour {
         CSelectionTools.s_input = inputDNA;
         CSelectionTools.s_lastRule = activeRule;
 
-        CComparasonTools.s_input = inputDNA;
-        CComparasonTools.s_goal = goalDNA;
+        CComparisonTools.s_input = inputDNA;
+        CComparisonTools.s_goal = goalDNA;
 
         ruleBackRend = ruleDisplay.transform.FindChild("back").GetComponent<SpriteRenderer>();
         ruleSignRend = ruleDisplay.transform.FindChild("sign").GetComponent<SpriteRenderer>();
 
         ruleBackSprites = Resources.LoadAll<Sprite>("rule_back");
         ruleSignSprites = Resources.LoadAll<Sprite>("rule_sign");
+
+        CLoadLevelTools.LoadLevels("Levels");
 
         // This will be replaced by however we're loading in a level
         foreach (DNAScript dna in inputDNA)
@@ -124,7 +126,7 @@ public class MainScript : MonoBehaviour {
 
         }
 
-        foreach( float v in CComparasonTools.compare())
+        foreach( float v in CComparisonTools.compare())
         {
             Debug.Log(v);
         }

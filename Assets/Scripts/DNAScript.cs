@@ -98,6 +98,7 @@ public class DNAScript : MonoBehaviour
         GeneScript script;
 
         gene = Instantiate(Gene,pos, rot) as GameObject;
+        gene.transform.parent = transform;
         script = gene.GetComponent<GeneScript>();
         changeColour(script, type);
 
