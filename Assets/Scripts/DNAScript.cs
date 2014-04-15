@@ -73,8 +73,8 @@ public class DNAScript : MonoBehaviour
         // position the genes starting from the middle of the array
         // this keeps the dna centred
         int mid = Mathf.CeilToInt(length/2);
-        Vector3 leftPos = new Vector3(pos.x - margin, pos.y);
-        Vector3 rightPos = new Vector3(pos.x, pos.y);
+        Vector3 leftPos = new Vector3(pos.x - (margin/2), pos.y);
+        Vector3 rightPos = new Vector3(pos.x + (margin / 2), pos.y);
 
         for (int i = 0; i < mid; i++)
         {

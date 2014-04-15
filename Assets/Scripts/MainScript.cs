@@ -24,7 +24,7 @@ public class MainScript : MonoBehaviour {
     private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), 
                                         new Rule3Selector(), new Rule4Selector() };
     public float margin = 2.6f;
-
+    public Vector3 selectionStreach = new Vector3(1.0f, 0.8f, 1f);
     private CLoadLevelTools.SLevel[] levels;
     public int startLevel = 0;
     private int _level = 0;
@@ -219,20 +219,43 @@ public class MainScript : MonoBehaviour {
     // move the selection box to the selected genes
     public void highlightGenes()
     {
+        Vector3 max = rules[currentRule].selected[0].selectionBounds.max;
+        Vector3 min = rules[currentRule].selected[0].selectionBounds.min;
+
         if (currentRule == 0)
         {
             // you get the idea...
             selBox[0].sprite = selBoxSprites[0];
-
+            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
+            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStreach);
+            selBox[1].sprite = null;
+            /*
             selBox[1].sprite = selBoxSprites[0];
+             */
 
         }
         else if (currentRule == 1)
         {
-
+            selBox[0].sprite = selBoxSprites[0];
+            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
+            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStreach);
+            selBox[1].sprite = null;
         }
         else if (currentRule == 2)
         {
+            selBox[0].sprite = selBoxSprites[0];
+            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
+            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStreach);
+            selBox[1].sprite = selBoxSprites[0];
+            selBox[1].transform.position = rules[currentRule].selected[1].selectionBounds.center;
+            selBox[1].transform.localScale = selBox[0].transform.localScale;
+        }
+        else if (currentRule == 3)
+        {
+            selBox[0].sprite = selBoxSprites[0];
+            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
+            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStreach);
+            selBox[1].sprite = null;
         }
     }
 
