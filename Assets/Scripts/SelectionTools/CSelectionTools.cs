@@ -11,8 +11,6 @@ public abstract class CSelectionTools
 
     public static DNAScript[] s_input; // is reference to input array
 
-    public static MainScript.Rule s_lastRule;
-
     public struct SelectedGenes // struct of selected genes
     {
         public GeneScript[] firstSelected;
@@ -61,6 +59,11 @@ public abstract class CSelectionTools
         _dnaIndex = dna;
         _geneIndex = gene;
 
+        updateSelection();
+    }
+
+    public void forceUpdateSelection()
+    {
         updateSelection();
     }
 }

@@ -7,19 +7,8 @@ using System.Collections;
 
 public class MainScript : MonoBehaviour {
 
-    // Anthony -> do the rule numbers here correspond to the rule numbers in the mock-up?
-    public enum Rule : int
-    {
-        Split = 0, Swap = 1, Flip_X = 2, Flip_Y = 3
-    };
-
     public DNAScript[] inputDNA;
     public DNAScript goalDNA;
-
-    // deals with rule and rule changes
-    public static Rule activeRule = Rule.Split;
-    private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), 
-                                        new Rule3Selector(), new Rule4Selector() };
 
     public GameObject ruleDisplay;
     public SpriteRenderer selBox;
@@ -30,22 +19,47 @@ public class MainScript : MonoBehaviour {
     private Sprite[] selBoxSprites;
 
     private int currentRule = 0;
-
-    // positioning
-    public float margin = 1.0f;
-    public Vector2 offset = new Vector2(0, 0);
+    private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), 
+                                        new Rule3Selector(), new Rule4Selector() };
 
     private CLoadLevelTools.SLevel[] levels;
     public int startLevel = 0;
+    private int _level = 0;
+    public int level
+    {
+        get
+        {
+            return _level;
+        }
+        set
+        {
+            _level = Mathf.Clamp(value, 0, levels.Length - 1);
+            foreach (DNAScript dna in inputDNA)
+            {
+                dna.clearGenes();
+            }
+            DNAScript[] iDNA = new DNAScript[levels[_level].InputDNA.Length];
+            for (int i = 0; i < levels[_level].InputDNA.Length; i++)
+            {
+                string top = levels[_level].InputDNA[i].top;
+                string bottom = levels[_level].InputDNA[i].bottom;
+                inputDNA[i].createDNA(top, bottom);
+                iDNA[i] = inputDNA[i];
+            }
+
+            goalDNA.createDNA(levels[_level].GoalDNA.top, levels[_level].GoalDNA.bottom);
+
+            CSelectionTools.s_input = iDNA;
+            CComparisonTools.s_input = iDNA;
+            CComparisonTools.s_goal = goalDNA;
+
+            rules[currentRule].forceUpdateSelection();
+            highlightDNA();
+        }
+    }
 
 	// Use this for initialization
 	void Start () {
-
-        CSelectionTools.s_input = inputDNA;
-        CSelectionTools.s_lastRule = activeRule;
-
-        CComparisonTools.s_input = inputDNA;
-        CComparisonTools.s_goal = goalDNA;
 
         ruleBackRend = ruleDisplay.transform.FindChild("back").GetComponent<SpriteRenderer>();
         ruleSignRend = ruleDisplay.transform.FindChild("sign").GetComponent<SpriteRenderer>();
@@ -54,40 +68,21 @@ public class MainScript : MonoBehaviour {
         ruleSignSprites = Resources.LoadAll<Sprite>("rule_sign");
         selBoxSprites = Resources.LoadAll<Sprite>("selection");
 
-        levels = CLoadLevelTools.LoadLevels("Levels");
 
-        startLevel = Mathf.Clamp(startLevel,0,levels.Length-1);
-
-        // This will be replaced by however we're loading in a level
-
-        /*
-        // This will be replaced by however we're loading in a level
-        inputDNA[0].createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
         Vector3 pos = inputDNA[0].transform.position;
         float y = pos.y;
         for (var i = 1; i < inputDNA.Length; i++)
         {    
-            inputDNA[i].createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
             // position dna relative to the first
             y -= 2.6f;
             inputDNA[i].transform.position = new Vector3(pos.x, y, 0);
             
         }
-         */
 
-        foreach (DNAScript dna in inputDNA)
-        {
-            dna.clearGenes();
-        }
+        levels = CLoadLevelTools.LoadLevels("Levels");
 
-        for (int i = 0; i < levels[startLevel].InputDNA.Length; i++ )
-        {
-            string top = levels[startLevel].InputDNA[i].top;
-            string bottom = levels[startLevel].InputDNA[i].bottom;
-            inputDNA[i].createDNA(top, bottom);
-        }
-
-        goalDNA.createDNA(levels[startLevel].GoalDNA.top, levels[startLevel].GoalDNA.bottom);
+        // set the start level
+        level = startLevel;
 
         // start at rule 0
         changeRules(currentRule);
@@ -112,13 +107,13 @@ public class MainScript : MonoBehaviour {
         // change rule
         if ( Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E) )
         {
-            currentRule = (currentRule + 1) % 4;
-            changeRules(currentRule);
+            int nextRule = (currentRule + 1) % 4;
+            changeRules(nextRule);
         }
         else if ( Input.GetKeyDown(KeyCode.Q) )
         {
-            currentRule = (currentRule == 3) ? 0 : currentRule + 1;
-            changeRules(currentRule);
+            int nextRule = (currentRule == 3) ? 0 : currentRule + 1;
+            changeRules(nextRule);
         }
 
         // move the selection box
@@ -142,6 +137,15 @@ public class MainScript : MonoBehaviour {
             rules[currentRule].geneIndex++;
         }
 
+        //change level
+        if( Input.GetKeyDown(KeyCode.Insert) )
+        {
+            level++;
+        }
+        else if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            level--;
+        }
 
         // perform action (i.e flip or swap according to rule selected)
         if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
@@ -223,6 +227,11 @@ public class MainScript : MonoBehaviour {
     // move to the next rule, and change the background to reflect this
     private void changeRules(int nextRule)
     {
+        if (nextRule >= 2 && CSelectionTools.s_input.Length < 2)
+        {
+            nextRule = nextRule % 2;
+        }
+
         if (nextRule == 0 || nextRule == 1)
         {
             ruleBackRend.sprite = ruleBackSprites[1];
@@ -237,7 +246,10 @@ public class MainScript : MonoBehaviour {
             Vector3 pos = ruleDisplay.transform.position;
             pos.y = (inputDNA[0].transform.position.y + inputDNA[1].transform.position.y) / 2;
             ruleDisplay.transform.position = pos;
-        } 
+        }
+
+        currentRule = nextRule;
+
         ruleSignRend.sprite = ruleSignSprites[nextRule];
         ruleSignRend.transform.position = new Vector3(
                                             ruleBackRend.bounds.max.x,

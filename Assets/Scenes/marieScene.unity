@@ -391,8 +391,6 @@ MonoBehaviour:
   goalDNA: {fileID: 1184240230}
   ruleDisplay: {fileID: 614505772}
   selBox: {fileID: 669634731}
-  margin: 2.20000005
-  offset: {x: -7, y: 1.79999995}
   startLevel: 2
 --- !u!4 &769847021
 Transform:
