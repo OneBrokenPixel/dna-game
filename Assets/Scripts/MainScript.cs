@@ -4,6 +4,8 @@ using System.Collections;
 // Attached to: Empty game object in scene.
 // Needs: 1 goal
 //        1+ dna scene objects.
+//        selection box
+//        rule display
 
 public class MainScript : MonoBehaviour {
 
@@ -11,7 +13,7 @@ public class MainScript : MonoBehaviour {
     public DNAScript goalDNA;
 
     public GameObject ruleDisplay;
-    public SpriteRenderer selBox;
+    public SpriteRenderer[] selBox;
     private SpriteRenderer ruleBackRend;
     private SpriteRenderer ruleSignRend;
     private Sprite[] ruleBackSprites;
@@ -21,6 +23,7 @@ public class MainScript : MonoBehaviour {
     private int currentRule = 0;
     private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), 
                                         new Rule3Selector(), new Rule4Selector() };
+    public float margin = 2.6f;
 
     private CLoadLevelTools.SLevel[] levels;
     public int startLevel = 0;
@@ -73,11 +76,13 @@ public class MainScript : MonoBehaviour {
         float y = pos.y;
         for (var i = 1; i < inputDNA.Length; i++)
         {    
+            //inputDNA[i].createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
             // position dna relative to the first
-            y -= 2.6f;
+            y -= margin;
             inputDNA[i].transform.position = new Vector3(pos.x, y, 0);
             
         }
+         
 
         levels = CLoadLevelTools.LoadLevels("Levels");
 
@@ -131,10 +136,12 @@ public class MainScript : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow)))
         {
             rules[currentRule].geneIndex--;
+            highlightGenes();
         }
         else if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
         {
             rules[currentRule].geneIndex++;
+            highlightGenes();
         }
 
         //change level
@@ -174,6 +181,7 @@ public class MainScript : MonoBehaviour {
          * */
 	}
 
+    // set the background of the current dna
     public void highlightDNA()
     {
         int dnaIndex = rules[currentRule].dnaIndex;
@@ -182,8 +190,6 @@ public class MainScript : MonoBehaviour {
         if (currentRule == 0 || currentRule == 1)
         {
             ruleDisplay.transform.position = inputDNA[dnaIndex].transform.position;
-            selBox.sprite = selBoxSprites[1];
-            selBox.transform.position = rules[currentRule].selected[0].selectionBounds.center;
         }
         else if (currentRule == 2 || currentRule == 3)
         {
@@ -205,10 +211,32 @@ public class MainScript : MonoBehaviour {
             float midPoint = (y1 + y2) / 2;
             Vector3 newPos = new Vector3(pos.x, midPoint, 0);
             ruleDisplay.transform.position = newPos;
+        }
 
+        highlightGenes();
+    }
+
+    // move the selection box to the selected genes
+    public void highlightGenes()
+    {
+        if (currentRule == 0)
+        {
+            // you get the idea...
+            selBox[0].sprite = selBoxSprites[0];
+
+            selBox[1].sprite = selBoxSprites[0];
+
+        }
+        else if (currentRule == 1)
+        {
+
+        }
+        else if (currentRule == 2)
+        {
         }
     }
 
+    // animate a flip between two genes
     public void flip(GeneScript first, GeneScript second)
     {
         Vector3 firstPos = first.transform.position;
@@ -259,7 +287,6 @@ public class MainScript : MonoBehaviour {
         // reset highlighter and selection box to first dna
         rules[currentRule].dnaIndex = 0;
         highlightDNA();
-
 	}
 
 }
