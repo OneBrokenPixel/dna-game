@@ -25,9 +25,9 @@ public abstract class CSelectionTools
         }
     }
 
-    public SelectedGenes[] selected; // array of selected genes;
-                                     // one SelectedGenes Per strand of DNA selected;
-                                     // rules 3 and 4 will have SelectedGenes[2]
+    public SelectedGenes[] selected = new SelectedGenes[2]; // array of selected genes;
+                                                            // one SelectedGenes Per strand of DNA selected;
+                                                            // rules 3 and 4 will have SelectedGenes[2]
 
     public Bounds dnaSelectionBounds = new Bounds();
 
@@ -77,11 +77,11 @@ public class Rule1Selector : CSelectionTools
             selected = null;
             return;
         }
-        if (selected == null || selected.Length != 1)
+        if (   (selected[0].firstSelected == null || selected[0].firstSelected.Length  != 4 )
+            && (selected[0].firstSelected == null || selected[0].secondSelected.Length != 4 ))
         {
-            selected = new SelectedGenes[1];
-
             selected[0].init(4, 4);
+            selected[1].init(0, 0);
         }
 
         _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length-1);
@@ -120,10 +120,11 @@ public class Rule2Selector : CSelectionTools
             selected = null;
             return;
         }
-        if (selected == null || selected.Length != 1)
+        if (   ( selected[0].firstSelected == null || selected[0].firstSelected.Length  != 8 )
+            && ( selected[0].firstSelected == null || selected[0].secondSelected.Length != 8 ))
         {
-            selected = new SelectedGenes[1];
             selected[0].init(8, 8);
+            selected[1].init(0, 0);
         }
 
         _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length-1);
@@ -150,7 +151,6 @@ public class Rule2Selector : CSelectionTools
 
 public class Rule3Selector : CSelectionTools
 {
-
     protected override void updateSelection()
     {
         if (s_input == null || s_input.Length < 2)
@@ -158,13 +158,13 @@ public class Rule3Selector : CSelectionTools
             selected = null;
             return;
         }
-        if (selected == null || selected.Length != 2)
+        if (   ( selected[0].firstSelected == null || selected[0].firstSelected.Length  != 4 )
+            && ( selected[0].firstSelected == null || selected[0].secondSelected.Length != 4 )
+            && ( selected[1].firstSelected == null || selected[1].firstSelected.Length  != 4 )
+            && ( selected[1].firstSelected == null || selected[1].secondSelected.Length != 4 ) )
         {
-            selected = new SelectedGenes[2];
-            for( int i = 0; i < 2; i++)
-            {
-                selected[i].init(4, 4);
-            }
+            selected[0].init(4, 4);
+            selected[1].init(4, 4);
         }
 
         _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length-2);
@@ -192,7 +192,6 @@ public class Rule3Selector : CSelectionTools
             }
 
         }
-
     }
 }
 
@@ -207,17 +206,16 @@ public class Rule4Selector : CSelectionTools
             return;
         }
 
-
         _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length - 2);
 
         int len = s_input[_dnaIndex].length;
-        if (selected == null || selected.Length != 2)
+        if (   ( selected[0].firstSelected == null || selected[0].firstSelected.Length  != len )
+            && ( selected[0].firstSelected == null || selected[0].secondSelected.Length != 0 )
+            && ( selected[1].firstSelected == null || selected[1].firstSelected.Length  != len )
+            && ( selected[1].firstSelected == null || selected[1].secondSelected.Length != 0 ))
         {
-            selected = new SelectedGenes[2];
-            for (int i = 0; i < 2; i++)
-            {
-                selected[i].init(len,0);
-            }
+            selected[0].init(len, 0);
+            selected[1].init(len, 0);
         }
 
         for (int d = 0; d < 2; d++)
@@ -233,10 +231,10 @@ public class Rule4Selector : CSelectionTools
 
                     selected[d].firstSelected[i] = dna.topStrand[i];
 
-
                     min = Vector3.Min(selected[d].firstSelected[i].renderer.bounds.min, min);
                     max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
                 }
+
                 selected[d].selectionBounds.SetMinMax(min, max);
             }
         }

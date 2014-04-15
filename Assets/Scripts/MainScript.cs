@@ -112,7 +112,7 @@ public class MainScript : MonoBehaviour {
         }
         else if ( Input.GetKeyDown(KeyCode.Q) )
         {
-            int nextRule = (currentRule == 3) ? 0 : currentRule + 1;
+            int nextRule = (currentRule == 0) ? 3 : currentRule - 1;
             changeRules(nextRule);
         }
 
