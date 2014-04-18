@@ -61,10 +61,14 @@ public class MainScript : MonoBehaviour {
         }
     }
 
-    private static Vector3 rule3SelectionRise = new Vector3(0, 0.22f, 0);
+    private Vector3 rule3SelectionRise = new Vector3(0, 0.22f, 0);
+    private float pxUnit = 0;
 
 	// Use this for initialization
 	void Start () {
+
+
+        pxUnit = 1f / (Screen.width / (Camera.main.orthographicSize * 2));
 
         ruleBackRend = ruleDisplay.transform.FindChild("back").GetComponent<SpriteRenderer>();
         ruleSignRend = ruleDisplay.transform.FindChild("sign").GetComponent<SpriteRenderer>();
@@ -98,6 +102,8 @@ public class MainScript : MonoBehaviour {
         {
             rule1.initalise(0, 0);
         }
+
+
 	}
 
 	// Update is called once per frame
@@ -233,39 +239,40 @@ public class MainScript : MonoBehaviour {
         if (currentRule == 0)
         {
             Vector3 pos = rules[currentRule].selected[0].selectionBounds.center;
+            Vector3 offset = new Vector3(0, selBoxSprites[0].bounds.max.y - pxUnit, 0);
             selBox[0].sprite = selBoxSprites[0];
-            float y = selBox[0].bounds.extents.y;
-            selBox[0].transform.position = new Vector3(pos.x, pos.y + y, 0) ;
+            selBox[0].transform.position = pos + offset;
 
-            // A - why does selected[1] move the box to the centre of the screen?
-            pos = rules[currentRule].selected[0].selectionBounds.center;
             selBox[1].sprite = selBoxSprites[0];
-            y = selBox[1].bounds.extents.y;
-            selBox[1].transform.position = new Vector3(pos.x, pos.y - y, 0);
+            selBox[1].transform.position = pos - offset;
 
         }
         else if (currentRule == 1)
         {
+
+            Vector3 offset = new Vector3(selBoxSprites[1].bounds.max.x - pxUnit, 0, 0);
+
             selBox[0].sprite = selBoxSprites[1];
-            // A - selected[0] needs to give the center of the first selected (not combined center of both)
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
+            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center - offset;
 
             selBox[1].sprite = selBoxSprites[1];
-            selBox[1].transform.position = new Vector3(-10,-10,-10);
+            selBox[1].transform.position = rules[currentRule].selected[0].selectionBounds.center + offset;
         }
         else if (currentRule == 2)
         {
             float mid = (rules[currentRule].selected[1].selectionBounds.center.y + rules[currentRule].selected[0].selectionBounds.center.y) / 2f;
 
             Vector3 cpos = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].sprite = selBoxSprites[1];
-            selBox[0].transform.position = cpos;
-            float dy = mid - selBox[0].bounds.min.y;
-            selBox[0].transform.position = new Vector3(cpos.x, cpos.y+dy, 0);
+            cpos.y = mid;
 
-            cpos = rules[currentRule].selected[1].selectionBounds.center;
+
+            Vector3 offset = new Vector3(0, selBoxSprites[1].bounds.max.y - pxUnit, 0);
+
+            selBox[0].sprite = selBoxSprites[1];
+            selBox[0].transform.position = cpos + offset;
+
             selBox[1].sprite = selBoxSprites[1];
-            selBox[1].transform.position = new Vector3(cpos.x, cpos.y - dy, 0);
+            selBox[1].transform.position = cpos - offset;
         }
         else if (currentRule == 3)
         {
