@@ -21,10 +21,16 @@ public class MainScript : MonoBehaviour {
     private Sprite[] selBoxSprites;
 
     private int currentRule = 0;
+<<<<<<< HEAD
+
+    // positioning
+    public float margin = 2.6f;
+    public Vector2 offset = new Vector2(0, 0);
+=======
     private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), 
                                         new Rule3Selector(), new Rule4Selector() };
-    public float margin = 2.6f;
-    public Vector3 selectionStretch = new Vector3(1.0f, 0.8f, 1f);
+>>>>>>> aec03702396244fefecc76d34abb0f75d0efb8ec
+
     private CLoadLevelTools.SLevel[] levels;
     public int startLevel = 0;
     private int _level = 0;
@@ -76,13 +82,19 @@ public class MainScript : MonoBehaviour {
         float y = pos.y;
         for (var i = 1; i < inputDNA.Length; i++)
         {    
+<<<<<<< HEAD
             //inputDNA[i].createDNA("rRGgbBYyrRGgbBYyrRGgbBYy", "yYBbgGRryYBbgGRryYBbgGRy");
+=======
+>>>>>>> aec03702396244fefecc76d34abb0f75d0efb8ec
             // position dna relative to the first
             y -= margin;
             inputDNA[i].transform.position = new Vector3(pos.x, y, 0);
             
         }
+<<<<<<< HEAD
          
+=======
+>>>>>>> aec03702396244fefecc76d34abb0f75d0efb8ec
 
         levels = CLoadLevelTools.LoadLevels("Levels");
 
@@ -117,8 +129,13 @@ public class MainScript : MonoBehaviour {
         }
         else if ( Input.GetKeyDown(KeyCode.Q) )
         {
-            int nextRule = (currentRule == 0) ? 3 : currentRule - 1;
+<<<<<<< HEAD
+            currentRule = (currentRule == 0) ? 3 : currentRule - 1;
+            changeRules(currentRule);
+=======
+            int nextRule = (currentRule == 3) ? 0 : currentRule + 1;
             changeRules(nextRule);
+>>>>>>> aec03702396244fefecc76d34abb0f75d0efb8ec
         }
 
         // move the selection box
@@ -185,15 +202,11 @@ public class MainScript : MonoBehaviour {
     public void highlightDNA()
     {
         int dnaIndex = rules[currentRule].dnaIndex;
-        Vector3 pos = new Vector3(0, 0, 0);
-        float midPoint = 0;
 
         // move the selection box and dna highlighter to the relevant dna
         if (currentRule == 0 || currentRule == 1)
         {
-            //ruleDisplay.transform.position = inputDNA[dnaIndex].transform.position;
-            pos = inputDNA[dnaIndex].transform.position;
-            midPoint = pos.y;
+            ruleDisplay.transform.position = inputDNA[dnaIndex].transform.position;
         }
         else if (currentRule == 2 || currentRule == 3)
         {
@@ -211,90 +224,32 @@ public class MainScript : MonoBehaviour {
                 y2 = inputDNA[2].transform.position.y;
             }
 
-            //Vector3 pos = ruleDisplay.transform.position;
-            pos = inputDNA[0].transform.position;
-            midPoint = (y1 + y2) / 2;
-            //Vector3 newPos = new Vector3(pos.x, midPoint, 0);
-            //ruleDisplay.transform.position = newPos;
+            Vector3 pos = ruleDisplay.transform.position;
+            float midPoint = (y1 + y2) / 2;
+            Vector3 newPos = new Vector3(pos.x, midPoint, 0);
+            ruleDisplay.transform.position = newPos;
         }
-        Vector3 newPos = new Vector3(pos.x-0.8f, midPoint, 0);
-        ruleDisplay.transform.position = newPos;
+
         highlightGenes();
     }
 
     // move the selection box to the selected genes
     public void highlightGenes()
     {
-        Vector3 max = rules[currentRule].selected[0].selectionBounds.max;
-        Vector3 min = rules[currentRule].selected[0].selectionBounds.min;
-
         if (currentRule == 0)
         {
-            Vector3 pos = rules[currentRule].selected[0].selectionBounds.center;
+            // you get the idea...
             selBox[0].sprite = selBoxSprites[0];
-            float y = selBox[0].bounds.extents.y;
-            selBox[0].transform.position = new Vector3(pos.x, pos.y + y, 0) ;
 
-            // A - why does selected[1] move the box to the centre of the screen?
-            pos = rules[currentRule].selected[0].selectionBounds.center;
             selBox[1].sprite = selBoxSprites[0];
-            y = selBox[1].bounds.extents.y;
-            selBox[1].transform.position = new Vector3(pos.x, pos.y - y, 0);
-
-            //selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStreach);
-            //selBox[1].sprite = null;
-            /*
-            selBox[1].sprite = selBoxSprites[0];
-             */
 
         }
         else if (currentRule == 1)
         {
-            selBox[0].sprite = selBoxSprites[1];
-            // A - selected[0] needs to give the center of the first selected (not combined center of both)
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
 
-            selBox[1].sprite = selBoxSprites[1];
-            selBox[1].transform.position = new Vector3(-10,-10,-10);
-            /*
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStretch);
-            selBox[1].sprite = null;
-             * */
         }
         else if (currentRule == 2)
         {
-            float mid = (rules[currentRule].selected[1].selectionBounds.center.y + rules[currentRule].selected[0].selectionBounds.center.y) / 2f;
-
-            Vector3 cpos = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].sprite = selBoxSprites[1];
-            selBox[0].transform.position = cpos;
-            float dy = mid - selBox[0].bounds.min.y;
-            selBox[0].transform.position = new Vector3(cpos.x, cpos.y+dy, 0);
-
-            cpos = rules[currentRule].selected[1].selectionBounds.center;
-            selBox[1].sprite = selBoxSprites[1];
-            selBox[1].transform.position = new Vector3(cpos.x, cpos.y - dy, 0);
-            /*
-            selBox[0].sprite = selBoxSprites[0];
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStretch);
-            selBox[1].sprite = selBoxSprites[0];
-            selBox[1].transform.position = rules[currentRule].selected[1].selectionBounds.center;
-            selBox[1].transform.localScale = selBox[0].transform.localScale;
-             */
-        }
-        else if (currentRule == 3)
-        {
-            selBox[0].sprite = selBoxSprites[2];
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[1].sprite = selBoxSprites[2];
-            selBox[1].transform.position = rules[currentRule].selected[1].selectionBounds.center;
-            /*
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStretch);
-            selBox[1].sprite = null;
-             * */
         }
     }
 

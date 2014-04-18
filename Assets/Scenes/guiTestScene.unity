@@ -499,7 +499,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 660524930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -1.3338418, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 57427857}
@@ -969,8 +969,8 @@ MonoBehaviour:
   selBox:
   - {fileID: 575605747}
   - {fileID: 3541127}
-  margin: 2.5999999
-  offset: {x: 0, y: 0}
+  margin: 2.9000001
+  selectionStreach: {x: 1, y: .800000012, z: 1}
   startLevel: 2
 --- !u!4 &1561402836
 Transform:
