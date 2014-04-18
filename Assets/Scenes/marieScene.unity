@@ -186,7 +186,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_SortingLayerID: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -394,7 +394,7 @@ MonoBehaviour:
   - {fileID: 1477053209}
   - {fileID: 669634731}
   margin: 2.5999999
-  selectionStreach: {x: .75, y: 1, z: 1}
+  selectionStretch: {x: 1, y: .800000012, z: 1}
   startLevel: 2
 --- !u!4 &769847021
 Transform:
@@ -530,7 +530,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_SortingLayerID: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

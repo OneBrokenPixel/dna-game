@@ -61,6 +61,8 @@ public class MainScript : MonoBehaviour {
         }
     }
 
+    private static Vector3 rule3SelectionRise = new Vector3(0, 0.22f, 0);
+
 	// Use this for initialization
 	void Start () {
 
@@ -241,12 +243,6 @@ public class MainScript : MonoBehaviour {
             y = selBox[1].bounds.extents.y;
             selBox[1].transform.position = new Vector3(pos.x, pos.y - y, 0);
 
-            //selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStreach);
-            //selBox[1].sprite = null;
-            /*
-            selBox[1].sprite = selBoxSprites[0];
-             */
-
         }
         else if (currentRule == 1)
         {
@@ -256,11 +252,6 @@ public class MainScript : MonoBehaviour {
 
             selBox[1].sprite = selBoxSprites[1];
             selBox[1].transform.position = new Vector3(-10,-10,-10);
-            /*
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStretch);
-            selBox[1].sprite = null;
-             * */
         }
         else if (currentRule == 2)
         {
@@ -275,26 +266,14 @@ public class MainScript : MonoBehaviour {
             cpos = rules[currentRule].selected[1].selectionBounds.center;
             selBox[1].sprite = selBoxSprites[1];
             selBox[1].transform.position = new Vector3(cpos.x, cpos.y - dy, 0);
-            /*
-            selBox[0].sprite = selBoxSprites[0];
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStretch);
-            selBox[1].sprite = selBoxSprites[0];
-            selBox[1].transform.position = rules[currentRule].selected[1].selectionBounds.center;
-            selBox[1].transform.localScale = selBox[0].transform.localScale;
-             */
         }
         else if (currentRule == 3)
         {
+            
             selBox[0].sprite = selBoxSprites[2];
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
+            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center + rule3SelectionRise;
             selBox[1].sprite = selBoxSprites[2];
-            selBox[1].transform.position = rules[currentRule].selected[1].selectionBounds.center;
-            /*
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center;
-            selBox[0].transform.localScale = Vector3.Scale((max - min), selectionStretch);
-            selBox[1].sprite = null;
-             * */
+            selBox[1].transform.position = rules[currentRule].selected[1].selectionBounds.center + rule3SelectionRise;
         }
     }
 
