@@ -21,8 +21,7 @@ public class MainScript : MonoBehaviour {
     private Sprite[] selBoxSprites;
 
     private int currentRule = 0;
-    private CSelectionTools[] rules = { new Rule1Selector(), new Rule2Selector(), 
-                                        new Rule3Selector(), new Rule4Selector() };
+
     public float margin = 2.6f;
     public Vector3 selectionStretch = new Vector3(1.0f, 0.8f, 1f);
     private CLoadLevelTools.SLevel[] levels;
@@ -56,7 +55,7 @@ public class MainScript : MonoBehaviour {
             CComparisonTools.s_input = iDNA;
             CComparisonTools.s_goal = goalDNA;
 
-            rules[currentRule].forceUpdateSelection();
+            CSelectionTools.rules[currentRule].forceUpdateSelection();
             highlightDNA();
         }
     }
@@ -98,7 +97,7 @@ public class MainScript : MonoBehaviour {
         // start at rule 0
         changeRules(currentRule);
 
-        foreach (CSelectionTools rule1 in rules)
+        foreach (CSelectionTools.BaseRuleSelector rule1 in CSelectionTools.rules)
         {
             rule1.initalise(0, 0);
         }
@@ -109,12 +108,12 @@ public class MainScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Debug.DrawLine(rules[currentRule].dnaSelectionBounds.center, rules[currentRule].dnaSelectionBounds.center + Vector3.up * 2, Color.blue);
-        Debug.DrawLine(rules[currentRule].dnaSelectionBounds.min, rules[currentRule].dnaSelectionBounds.max, Color.blue);
-        for (int i = 0; rules[currentRule].selected != null && i < rules[currentRule].selected.Length; i++)
+        Debug.DrawLine(CSelectionTools.rules[currentRule].dnaSelectionBounds.center, CSelectionTools.rules[currentRule].dnaSelectionBounds.center + Vector3.up * 2, Color.blue);
+        Debug.DrawLine(CSelectionTools.rules[currentRule].dnaSelectionBounds.min, CSelectionTools.rules[currentRule].dnaSelectionBounds.max, Color.blue);
+        for (int i = 0; CSelectionTools.rules[currentRule].selected != null && i < CSelectionTools.rules[currentRule].selected.Length; i++)
         {
-            Debug.DrawLine(rules[currentRule].selected[i].selectionBounds.center, rules[currentRule].selected[i].selectionBounds.center + Vector3.up * 2, Color.yellow);
-            Debug.DrawLine(rules[currentRule].selected[i].selectionBounds.min, rules[currentRule].selected[i].selectionBounds.max, Color.yellow);
+            Debug.DrawLine(CSelectionTools.rules[currentRule].selectionPoints[0], CSelectionTools.rules[currentRule].selectionPoints[0] + Vector3.up, Color.yellow);
+            Debug.DrawLine(CSelectionTools.rules[currentRule].selectionPoints[1], CSelectionTools.rules[currentRule].selectionPoints[1] + Vector3.up, Color.yellow);
         }
 
         // change rule
@@ -132,23 +131,23 @@ public class MainScript : MonoBehaviour {
         // move the selection box
         if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.UpArrow)))
         {
-            rules[currentRule].dnaIndex--;
+            CSelectionTools.rules[currentRule].dnaIndex--;
             highlightDNA();
 
         }
         else if(Input.GetKeyDown(KeyCode.S) || (Input.GetKeyDown(KeyCode.DownArrow)) )
         {
-            rules[currentRule].dnaIndex++;
+            CSelectionTools.rules[currentRule].dnaIndex++;
             highlightDNA();
         }
         if (Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow)))
         {
-            rules[currentRule].geneIndex--;
+            CSelectionTools.rules[currentRule].geneIndex--;
             highlightGenes();
         }
         else if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
         {
-            rules[currentRule].geneIndex++;
+            CSelectionTools.rules[currentRule].geneIndex++;
             highlightGenes();
         }
 
@@ -165,7 +164,7 @@ public class MainScript : MonoBehaviour {
         // perform action (i.e flip or swap according to rule selected)
         if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
         {
-            CSelectionTools.SelectedGenes[] sel = rules[currentRule].selected;
+            CSelectionTools.SelectedGenes[] sel = CSelectionTools.rules[currentRule].selected;
 
             // right now, we can only flip genes
             for (int i = 0; i < sel.Length; i++)
@@ -192,7 +191,7 @@ public class MainScript : MonoBehaviour {
     // set the background of the current dna
     public void highlightDNA()
     {
-        int dnaIndex = rules[currentRule].dnaIndex;
+        int dnaIndex = CSelectionTools.rules[currentRule].dnaIndex;
         Vector3 pos = new Vector3(0, 0, 0);
         float midPoint = 0;
 
@@ -233,55 +232,48 @@ public class MainScript : MonoBehaviour {
     // move the selection box to the selected genes
     public void highlightGenes()
     {
-        Vector3 max = rules[currentRule].selected[0].selectionBounds.max;
-        Vector3 min = rules[currentRule].selected[0].selectionBounds.min;
-
+        
         if (currentRule == 0)
         {
-            Vector3 pos = rules[currentRule].selected[0].selectionBounds.center;
             Vector3 offset = new Vector3(0, selBoxSprites[0].bounds.max.y - pxUnit, 0);
+
             selBox[0].sprite = selBoxSprites[0];
-            selBox[0].transform.position = pos + offset;
+            selBox[0].transform.position = CSelectionTools.rules[currentRule].selectionPoints[0] + offset;
 
             selBox[1].sprite = selBoxSprites[0];
-            selBox[1].transform.position = pos - offset;
+            selBox[1].transform.position = CSelectionTools.rules[currentRule].selectionPoints[1] - offset;
 
         }
         else if (currentRule == 1)
         {
-
-            Vector3 offset = new Vector3(selBoxSprites[1].bounds.max.x - pxUnit, 0, 0);
+            Vector3 offset = new Vector3(0, 0, 0);
 
             selBox[0].sprite = selBoxSprites[1];
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center - offset;
+            selBox[0].transform.position = CSelectionTools.rules[currentRule].selectionPoints[0] - offset;
 
             selBox[1].sprite = selBoxSprites[1];
-            selBox[1].transform.position = rules[currentRule].selected[0].selectionBounds.center + offset;
+            selBox[1].transform.position = CSelectionTools.rules[currentRule].selectionPoints[1] + offset;
         }
         else if (currentRule == 2)
         {
-            float mid = (rules[currentRule].selected[1].selectionBounds.center.y + rules[currentRule].selected[0].selectionBounds.center.y) / 2f;
-
-            Vector3 cpos = rules[currentRule].selected[0].selectionBounds.center;
-            cpos.y = mid;
-
-
             Vector3 offset = new Vector3(0, selBoxSprites[1].bounds.max.y - pxUnit, 0);
 
             selBox[0].sprite = selBoxSprites[1];
-            selBox[0].transform.position = cpos + offset;
+            selBox[0].transform.position = CSelectionTools.rules[currentRule].selectionPoints[0] + offset;
 
             selBox[1].sprite = selBoxSprites[1];
-            selBox[1].transform.position = cpos - offset;
+            selBox[1].transform.position = CSelectionTools.rules[currentRule].selectionPoints[1] - offset;
         }
         else if (currentRule == 3)
         {
-            
+            Vector3 offset = new Vector3(0, selBoxSprites[0].bounds.max.y - pxUnit, 0);
+
             selBox[0].sprite = selBoxSprites[2];
-            selBox[0].transform.position = rules[currentRule].selected[0].selectionBounds.center + rule3SelectionRise;
+            selBox[0].transform.position = CSelectionTools.rules[currentRule].selectionPoints[0] + offset;
             selBox[1].sprite = selBoxSprites[2];
-            selBox[1].transform.position = rules[currentRule].selected[1].selectionBounds.center + rule3SelectionRise;
+            selBox[1].transform.position = CSelectionTools.rules[currentRule].selectionPoints[1] + offset;
         }
+
     }
 
     // animate a flip between two genes
@@ -333,7 +325,7 @@ public class MainScript : MonoBehaviour {
                                             0);
 
         // reset highlighter and selection box to first dna
-        rules[currentRule].dnaIndex = 0;
+        CSelectionTools.rules[currentRule].dnaIndex = 0;
         highlightDNA();
 	}
 
