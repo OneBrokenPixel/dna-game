@@ -31,7 +31,7 @@ public class CSelectionTools
         // one SelectedGenes Per strand of DNA selected;
         // rules 3 and 4 will have SelectedGenes[2]
 
-        public Bounds dnaSelectionBounds = new Bounds();
+        //public Bounds dnaSelectionBounds = new Bounds();
 
         protected int _dnaIndex = 0; // current index of the dna in s_input;
         public int dnaIndex
@@ -47,14 +47,7 @@ public class CSelectionTools
             set { _geneIndex = value; updateSelection(); } // updates selected array;
         }
 
-        static System.Collections.Generic.List<CSelectionTools> _tools;
-
         protected abstract void updateSelection(); // abstact member function that updates the selected array.
-
-        public void initalise()
-        {
-            updateSelection();
-        }
 
         public void initalise(int dna, int gene)
         {
@@ -89,8 +82,6 @@ public class CSelectionTools
             _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length - 1);
 
             DNAScript dna = s_input[_dnaIndex];
-
-            dnaSelectionBounds = dna.renderer.bounds;
 
             _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
 
@@ -139,8 +130,6 @@ public class CSelectionTools
             _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length - 1);
 
             DNAScript dna = s_input[_dnaIndex];
-
-            dnaSelectionBounds = dna.renderer.bounds;
 
             _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 8);
             //Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
@@ -205,7 +194,7 @@ public class CSelectionTools
             for (int d = 0; d < 2; d++)
             {
                 DNAScript dna = s_input[_dnaIndex + d];
-                dnaSelectionBounds = dna.renderer.bounds;
+
                 if (dna.length != 0)
                 {
                     _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
@@ -259,8 +248,6 @@ public class CSelectionTools
             for (int d = 0; d < 2; d++)
             {
                 DNAScript dna = s_input[_dnaIndex + d];
-                dnaSelectionBounds = dna.renderer.bounds;
-
 
                 Vector3 center = new Vector3();
 

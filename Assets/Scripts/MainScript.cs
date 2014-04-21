@@ -108,8 +108,6 @@ public class MainScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Debug.DrawLine(CSelectionTools.rules[currentRule].dnaSelectionBounds.center, CSelectionTools.rules[currentRule].dnaSelectionBounds.center + Vector3.up * 2, Color.blue);
-        Debug.DrawLine(CSelectionTools.rules[currentRule].dnaSelectionBounds.min, CSelectionTools.rules[currentRule].dnaSelectionBounds.max, Color.blue);
         for (int i = 0; CSelectionTools.rules[currentRule].selected != null && i < CSelectionTools.rules[currentRule].selected.Length; i++)
         {
             Debug.DrawLine(CSelectionTools.rules[currentRule].selectionPoints[0], CSelectionTools.rules[currentRule].selectionPoints[0] + Vector3.up, Color.yellow);
