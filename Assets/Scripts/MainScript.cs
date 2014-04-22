@@ -162,6 +162,7 @@ public class MainScript : MonoBehaviour {
         // perform action (i.e flip or swap according to rule selected)
         if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
         {
+            /*
             CSelectionTools.SelectedGenes[] sel = CSelectionTools.rules[currentRule].selected;
 
             // right now, we can only flip genes
@@ -175,7 +176,8 @@ public class MainScript : MonoBehaviour {
                     flip(first[j], second[j]);
                 }
             }
-
+            */
+            CSelectionTools.rules[currentRule].appyRule();
         }
 
         /*

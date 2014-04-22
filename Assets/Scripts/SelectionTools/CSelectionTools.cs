@@ -49,6 +49,8 @@ public class CSelectionTools
 
         protected abstract void updateSelection(); // abstact member function that updates the selected array.
 
+        public abstract void appyRule();
+
         public void initalise(int dna, int gene)
         {
             _dnaIndex = dna;
@@ -85,28 +87,32 @@ public class CSelectionTools
 
             _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
 
-            //Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
             Vector3 center = new Vector3();
 
             for (int i = 0; i < 4; i++)
             {
 
-                //Debug.Log("ha" + selected[0].topStrand.Length);
                 selected[0].firstSelected[i] = dna.topStrand[_geneIndex + i];
                 selected[0].secondSelected[i] = dna.bottomStrand[_geneIndex + i];
 
                 center += dna.topStrand[_geneIndex + i].transform.position / 8;
                 center += dna.bottomStrand[_geneIndex + i].transform.position / 8;
 
-
-                //min = Vector3.Min(selected[0].secondSelected[i].renderer.bounds.min, min);
-                //max = Vector3.Max(selected[0].firstSelected[i].renderer.bounds.max, max);
             }
 
-            //selected[0].selectionBounds.SetMinMax(min, max);
             selectionPoints[0] = center;
             selectionPoints[1] = center;
+        }
+
+        public override void appyRule()
+        {
+            for( int i = 0; i < selected[0].firstSelected.Length; i++)
+            {
+                char t = selected[0].firstSelected[i].colour;
+                selected[0].firstSelected[i].changeType(selected[0].secondSelected[i].colour);
+                selected[0].secondSelected[i].changeType(t);
+            }
         }
     }
 
@@ -167,6 +173,22 @@ public class CSelectionTools
             selectionPoints[1] = right;
 
         }
+
+        public override void appyRule()
+        {
+            int len = selected[0].firstSelected.Length-1;
+            int hLen = selected[0].firstSelected.Length/2;
+            for(int start = 0, end = len; start < hLen; start++, end--)
+            {
+                char t = selected[0].firstSelected[start].colour;
+                selected[0].firstSelected[start].changeType(selected[0].firstSelected[end].colour);
+                selected[0].firstSelected[end].changeType(t);
+
+                t = selected[0].secondSelected[start].colour;
+                selected[0].secondSelected[start].changeType(selected[0].secondSelected[end].colour);
+                selected[0].secondSelected[end].changeType(t);
+            }
+        }
     }
 
     public class Rule3Selector : BaseRuleSelector
@@ -220,6 +242,21 @@ public class CSelectionTools
             selectionPoints[0] = center;
             selectionPoints[1] = center;
         }
+
+        public override void appyRule()
+        {
+            for (int i = 0; i < selected[0].firstSelected.Length; i++)
+            {
+                char t = selected[0].firstSelected[i].colour;
+                selected[0].firstSelected[i].changeType(selected[1].secondSelected[i].colour);
+                selected[1].secondSelected[i].changeType(t);
+
+                t = selected[0].secondSelected[i].colour;
+                selected[0].secondSelected[i].changeType(selected[1].firstSelected[i].colour);
+                selected[1].firstSelected[i].changeType(t);
+
+            }
+        }
     }
 
     public class Rule4Selector : BaseRuleSelector
@@ -272,6 +309,16 @@ public class CSelectionTools
                 }
 
                 selectionPoints[d] = center;
+            }
+        }
+
+        public override void appyRule()
+        {
+            for (int i = 0; i < selected[0].firstSelected.Length; i++)
+            {
+                char t = selected[0].firstSelected[i].colour;
+                selected[0].firstSelected[i].changeType(selected[1].firstSelected[i].colour);
+                selected[1].firstSelected[i].changeType(t);
             }
         }
     }
