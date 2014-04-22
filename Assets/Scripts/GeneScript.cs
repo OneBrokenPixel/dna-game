@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class GeneScript : MonoBehaviour {
 
@@ -54,6 +55,18 @@ public class GeneScript : MonoBehaviour {
 
     public void changeType(char colour)
     {
+
+        // test the char to see that it matches the case
+        // if not change it!
+        if (Char.IsLower(this.colour) && Char.IsUpper(colour))
+        {
+            colour = Char.ToLower(colour);
+        }
+        else if (Char.IsUpper(this.colour) && Char.IsLower(colour))
+        {
+            colour = Char.ToUpper(colour);
+        }
+        
         this.colour = colour;
         spriteRenderer.sprite = DNAScript.getSprite(colour);
     }
