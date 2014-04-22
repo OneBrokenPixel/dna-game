@@ -266,7 +266,17 @@ public class MainScript : MonoBehaviour {
         }
         else if (currentRule == 3)
         {
-            Vector3 offset = new Vector3(0, selBoxSprites[0].bounds.max.y - pxUnit, 0);
+
+            Vector3 offset = new Vector3();
+
+            if( CSelectionTools.rules[currentRule].geneIndex == 1 )
+            {
+                offset.Set(0, selBoxSprites[0].bounds.min.y + pxUnit, 0);
+            }
+            else
+            {
+                offset.Set(0, selBoxSprites[0].bounds.max.y - pxUnit, 0);
+            }
 
             selBox[0].sprite = selBoxSprites[2];
             selBox[0].transform.position = CSelectionTools.rules[currentRule].selectionPoints[0] + offset;

@@ -271,16 +271,22 @@ public class CSelectionTools
             }
 
             _dnaIndex = Mathf.Clamp(_dnaIndex, 0, s_input.Length - 2);
+            _geneIndex = Mathf.Clamp(_geneIndex, 0, 1);
 
             int len = s_input[_dnaIndex].length;
-            if ((selected[0].firstSelected == null || selected[0].firstSelected.Length != len)
-                && (selected[0].firstSelected == null || selected[0].secondSelected.Length != 0)
-                && (selected[1].firstSelected == null || selected[1].firstSelected.Length != len)
-                && (selected[1].firstSelected == null || selected[1].secondSelected.Length != 0))
+
+            if (_geneIndex == 0)
             {
                 selected[0].init(len, 0);
                 selected[1].init(len, 0);
             }
+            else
+            {
+
+                selected[0].init(0, len);
+                selected[1].init(0, len);
+            }
+          
 
             for (int d = 0; d < 2; d++)
             {
@@ -290,22 +296,22 @@ public class CSelectionTools
 
                 if (dna.length != 0)
                 {
-                    _geneIndex = Mathf.Clamp(_geneIndex, 0, dna.length - 4);
-                    //Vector3 min = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue), max = new Vector3(float.MinValue, float.MinValue, float.MinValue);
 
-                    
-                    for (int i = 0; i < dna.topStrand.Length; i++)
-                    {
+                    if (_geneIndex == 0)
+                        for (int i = 0; i < dna.topStrand.Length; i++)
+                        {
+                            selected[d].firstSelected[i] = dna.topStrand[i];
 
-                        selected[d].firstSelected[i] = dna.topStrand[i];
+                            center += dna.topStrand[i].transform.position / dna.topStrand.Length;
+                        }
+                    else
+                        for (int i = 0; i < dna.bottomStrand.Length; i++)
+                        {
+                            selected[d].secondSelected[i] = dna.bottomStrand[i];
 
-                        //min = Vector3.Min(selected[d].firstSelected[i].renderer.bounds.min, min);
-                        //max = Vector3.Max(selected[d].firstSelected[i].renderer.bounds.max, max);
+                            center += dna.bottomStrand[i].transform.position / dna.bottomStrand.Length;
+                        }
 
-                        center += dna.topStrand[i].transform.position / dna.topStrand.Length;
-                    }
-
-                    //selected[d].selectionBounds.SetMinMax(min, max);
                 }
 
                 selectionPoints[d] = center;
@@ -314,12 +320,20 @@ public class CSelectionTools
 
         public override void appyRule()
         {
-            for (int i = 0; i < selected[0].firstSelected.Length; i++)
-            {
-                char t = selected[0].firstSelected[i].colour;
-                selected[0].firstSelected[i].changeType(selected[1].firstSelected[i].colour);
-                selected[1].firstSelected[i].changeType(t);
-            }
+            if( _geneIndex == 0)
+                for (int i = 0; i < selected[0].firstSelected.Length; i++)
+                {
+                    char t = selected[0].firstSelected[i].colour;
+                    selected[0].firstSelected[i].changeType(selected[1].firstSelected[i].colour);
+                    selected[1].firstSelected[i].changeType(t);
+                }
+            else
+                for (int i = 0; i < selected[0].secondSelected.Length; i++)
+                {
+                    char t = selected[0].secondSelected[i].colour;
+                    selected[0].secondSelected[i].changeType(selected[1].secondSelected[i].colour);
+                    selected[1].secondSelected[i].changeType(t);
+                }
         }
     }
 
