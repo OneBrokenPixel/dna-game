@@ -23,7 +23,6 @@ class CComparisonTools
     {
         foreach( DNAScript dna in s_input)
         {
-            Debug.Log("Ha");
             yield return dna.compare(s_goal); ;
         }
     }
@@ -32,7 +31,6 @@ class CComparisonTools
     {
         foreach (DNAScript dna in s_input)
         {
-            Debug.Log("Ha");
             dna.compare(s_goal); ;
         }
     }

@@ -153,9 +153,6 @@ public class DNAScript : MonoBehaviour
 
         completeness = ((float)correct) / (length * 2.0f);
 
-        print(correct);
-        print(completeness);
-
         return completeness;
     }
 
