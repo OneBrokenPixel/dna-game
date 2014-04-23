@@ -182,7 +182,11 @@ public class MainScript : MonoBehaviour {
             }
             */
             CSelectionTools.rules[currentRule].appyRule();
-            CComparisonTools.UpdateCompleteness();
+            foreach (float f in CComparisonTools.compare())
+            {
+                if( f >= 1f)
+                    Debug.Log("Win");
+            }
         }
 
 	}
