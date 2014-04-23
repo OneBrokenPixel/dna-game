@@ -10,18 +10,30 @@ class CComparisonTools
     public static DNAScript[] s_input; // is reference to input array
     public static DNAScript s_goal;
 
+    public static float compare( int index )
+    {
+        if (index >= 0 && index < s_input.Length)
+            return s_input[index].compare(s_goal);
+        else
+            return -1f;
+    }
+
+
     public static IEnumerable<float> compare()
     {
         foreach( DNAScript dna in s_input)
         {
-            int correct = 0;
+            Debug.Log("Ha");
+            yield return dna.compare(s_goal); ;
+        }
+    }
 
-            for (int i = 0; i < dna.length; i++)
-            {
-                correct += (dna.topStrand[i].compare(s_goal.topStrand[i])) ? 1 : 0;
-                correct += (dna.bottomStrand[i].compare(s_goal.bottomStrand[i])) ? 1 : 0;
-            }
-            yield return ((float)correct)/(dna.length*2.0f);
+    public static void UpdateCompleteness()
+    {
+        foreach (DNAScript dna in s_input)
+        {
+            Debug.Log("Ha");
+            dna.compare(s_goal); ;
         }
     }
 

@@ -9,6 +9,9 @@ public class DNAScript : MonoBehaviour
     // What the dna is made of. Prefab.
     public GameObject Gene;
 
+    // how close this string matches the goal.
+    public float completeness;
+
     public int length { get; set; }
     public GeneScript[] topStrand;
     public GeneScript[] bottomStrand;
@@ -136,6 +139,24 @@ public class DNAScript : MonoBehaviour
                 bottomStrand[i].GetComponent<Animator>().SetTrigger("playFlip");
             }
         }
+    }
+
+    public float compare( DNAScript target )
+    {
+        int correct = 0;
+
+        for (int i = 0; i < length; i++)
+        {
+            correct += (topStrand[i].compare(target.topStrand[i])) ? 1 : 0;
+            correct += (bottomStrand[i].compare(target.bottomStrand[i])) ? 1 : 0;
+        }
+
+        completeness = ((float)correct) / (length * 2.0f);
+
+        print(correct);
+        print(completeness);
+
+        return completeness;
     }
 
 }

@@ -56,6 +56,7 @@ public class MainScript : MonoBehaviour {
             CComparisonTools.s_goal = goalDNA;
 
             CSelectionTools.rules[currentRule].forceUpdateSelection();
+            CComparisonTools.UpdateCompleteness();
             highlightDNA();
         }
     }
@@ -108,11 +109,14 @@ public class MainScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        /*
+         * debug draw code removed
         for (int i = 0; CSelectionTools.rules[currentRule].selected != null && i < CSelectionTools.rules[currentRule].selected.Length; i++)
         {
             Debug.DrawLine(CSelectionTools.rules[currentRule].selectionPoints[0], CSelectionTools.rules[currentRule].selectionPoints[0] + Vector3.up, Color.yellow);
             Debug.DrawLine(CSelectionTools.rules[currentRule].selectionPoints[1], CSelectionTools.rules[currentRule].selectionPoints[1] + Vector3.up, Color.yellow);
         }
+         */
 
         // change rule
         if ( Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E) )
@@ -178,15 +182,27 @@ public class MainScript : MonoBehaviour {
             }
             */
             CSelectionTools.rules[currentRule].appyRule();
+            CComparisonTools.UpdateCompleteness();
         }
 
-        /*
-        foreach( float v in CComparasonTools.compare())
-        {
-            Debug.Log(v);
-        }
-         * */
 	}
+
+    void OnGUI()
+    {
+        GUILayout.BeginArea(new Rect(10, 10, 200, 400));
+        {
+            GUILayout.BeginVertical();
+            {
+                foreach (DNAScript dna in CComparisonTools.s_input)
+                {
+                    //Debug.Log(dna.completeness);
+                    GUILayout.Label(dna.gameObject.name + ": " + (dna.completeness * 100f) + "%");
+                }
+            }
+            GUILayout.EndVertical();
+        }
+        GUILayout.EndArea();
+    }
 
     // set the background of the current dna
     public void highlightDNA()
