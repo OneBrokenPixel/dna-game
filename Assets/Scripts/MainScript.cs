@@ -64,6 +64,8 @@ public class MainScript : MonoBehaviour {
     private Vector3 rule3SelectionRise = new Vector3(0, 0.22f, 0);
     private float pxUnit = 0;
 
+    public Animator welldoneScreen;
+
 	// Use this for initialization
 	void Start () {
 
@@ -118,74 +120,94 @@ public class MainScript : MonoBehaviour {
         }
          */
 
-        // change rule
-        if ( Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E) )
-        {
-            int nextRule = (currentRule + 1) % 4;
-            changeRules(nextRule);
-        }
-        else if ( Input.GetKeyDown(KeyCode.Q) )
-        {
-            int nextRule = (currentRule == 0) ? 3 : currentRule - 1;
-            changeRules(nextRule);
-        }
+        bool isOn = welldoneScreen.GetBool("isOn");
 
-        // move the selection box
-        if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.UpArrow)))
+        if (isOn == true)
         {
-            CSelectionTools.rules[currentRule].dnaIndex--;
-            highlightDNA();
-
-        }
-        else if(Input.GetKeyDown(KeyCode.S) || (Input.GetKeyDown(KeyCode.DownArrow)) )
-        {
-            CSelectionTools.rules[currentRule].dnaIndex++;
-            highlightDNA();
-        }
-        if (Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow)))
-        {
-            CSelectionTools.rules[currentRule].geneIndex--;
-            highlightGenes();
-        }
-        else if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
-        {
-            CSelectionTools.rules[currentRule].geneIndex++;
-            highlightGenes();
-        }
-
-        //change level
-        if( Input.GetKeyDown(KeyCode.Insert) )
-        {
-            level++;
-        }
-        else if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            level--;
-        }
-
-        // perform action (i.e flip or swap according to rule selected)
-        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
-        {
-            /*
-            CSelectionTools.SelectedGenes[] sel = CSelectionTools.rules[currentRule].selected;
-
-            // right now, we can only flip genes
-            for (int i = 0; i < sel.Length; i++)
+            if(Input.anyKeyDown == true)
             {
-                GeneScript[] first = sel[i].firstSelected;
-                GeneScript[] second = sel[i].secondSelected;
-
-                for (int j = 0; j < first.Length; j++)
+                
+                if( level == levels.Length-1)
                 {
-                    flip(first[j], second[j]);
+                    Application.Quit();
+                    return;
                 }
+                level += 1;
+                
+                welldoneScreen.SetBool("isOn", false);
             }
-            */
-            CSelectionTools.rules[currentRule].appyRule();
-            foreach (float f in CComparisonTools.compare())
+        }
+        else
+        {
+            // change rule
+            if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E))
             {
-                if( f >= 1f)
-                    Debug.Log("Win");
+                int nextRule = (currentRule + 1) % 4;
+                changeRules(nextRule);
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                int nextRule = (currentRule == 0) ? 3 : currentRule - 1;
+                changeRules(nextRule);
+            }
+
+            // move the selection box
+            if (Input.GetKeyDown(KeyCode.W) || (Input.GetKeyDown(KeyCode.UpArrow)))
+            {
+                CSelectionTools.rules[currentRule].dnaIndex--;
+                highlightDNA();
+
+            }
+            else if (Input.GetKeyDown(KeyCode.S) || (Input.GetKeyDown(KeyCode.DownArrow)))
+            {
+                CSelectionTools.rules[currentRule].dnaIndex++;
+                highlightDNA();
+            }
+            if (Input.GetKeyDown(KeyCode.A) || (Input.GetKeyDown(KeyCode.LeftArrow)))
+            {
+                CSelectionTools.rules[currentRule].geneIndex--;
+                highlightGenes();
+            }
+            else if (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
+            {
+                CSelectionTools.rules[currentRule].geneIndex++;
+                highlightGenes();
+            }
+
+            //change level
+            if (Input.GetKeyDown(KeyCode.Insert))
+            {
+                level++;
+            }
+            else if (Input.GetKeyDown(KeyCode.Delete))
+            {
+                level--;
+            }
+
+            // perform action (i.e flip or swap according to rule selected)
+            if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
+            {
+                /*
+                CSelectionTools.SelectedGenes[] sel = CSelectionTools.rules[currentRule].selected;
+
+                // right now, we can only flip genes
+                for (int i = 0; i < sel.Length; i++)
+                {
+                    GeneScript[] first = sel[i].firstSelected;
+                    GeneScript[] second = sel[i].secondSelected;
+
+                    for (int j = 0; j < first.Length; j++)
+                    {
+                        flip(first[j], second[j]);
+                    }
+                }
+                */
+                CSelectionTools.rules[currentRule].appyRule();
+                foreach (float f in CComparisonTools.compare())
+                {
+                    if (f >= 1f)
+                        welldoneScreen.SetBool("isOn", true);
+                }
             }
         }
 
