@@ -4,6 +4,14 @@ yYBbgGRr,rRRrrRRr
 rRRrbBYy,gGGggGGg/
 yYBbrRRr,gGGggGGg
 -
+bBGgrRRr,yGBygGGg/
+bBBbyGBy,yYYyrRRr/
+yGByyGBy,bBGgrRRr
+-
+rRRrrRRr,bBBbbBBb/
+bBBbyBBy,yYYygGGg/
+rRRrrRRr,yYYygGGg
+-
 gGGgbBBb,rRRrgGGg/
 yGByyGBy,rBGrrBGr/
 rRRrgGGg,yGByyGBy
