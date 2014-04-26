@@ -139,6 +139,12 @@ public class MainScript : MonoBehaviour {
         }
         else
         {
+
+            if( Input.GetKeyDown(KeyCode.R))
+            {
+                level = level;
+            }
+
             // change rule
             if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.E))
             {
@@ -206,7 +212,10 @@ public class MainScript : MonoBehaviour {
                 foreach (float f in CComparisonTools.compare())
                 {
                     if (f >= 1f)
+                    {
                         welldoneScreen.SetBool("isOn", true);
+                        break;
+                    }
                 }
             }
         }
@@ -327,7 +336,7 @@ public class MainScript : MonoBehaviour {
         }
 
     }
-
+    /*
     // animate a flip between two genes
     public void flip(GeneScript first, GeneScript second)
     {
@@ -343,7 +352,7 @@ public class MainScript : MonoBehaviour {
         first.changeType(secondColour);
         second.changeType(firstColour);
     }
-
+    */
     // move to the next rule, and change the background to reflect this
     private void changeRules(int nextRule)
     {
