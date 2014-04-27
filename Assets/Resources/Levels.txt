@@ -16,5 +16,12 @@ gGGgbBBb,rRRrgGGg/
 yGByyGBy,rBGrrBGr/
 rRRrgGGg,yGByyGBy
 -
+rRRrrRRrgGGgrRRrrRRrgGGg,yYYyyYYybBBbyYYyyYYybBBb/
+rRYyrRYybBBbyYRryYRrgGGg,yYRryYRrgGGgrRYyrRYybBBb
+-
+rRRrrRRrrRRrrRRrrRRrrRRr,yYYyyYYyyYYyyYYyyYYyyYYy/
+bBBbbBBbbBBbbBBbbBBbbBBb,gGGggGGggGGggGGggGGggGGg/
+rRGgbBYyrRGgbBYyrRGgbBYy,yYBbgGRryYBbgGRryYBbgGRr
+-
 rRGgbBYyrRGgbBYyrRGgbBYy,yYBbgGRryYBbgGRryYBbgGRr/
 rRGgbBYyrRGgbBYyrRGgbBYy,yYBbgGRryYBbgGRryYBbgGRr

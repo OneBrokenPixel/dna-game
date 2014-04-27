@@ -222,16 +222,27 @@ public class MainScript : MonoBehaviour {
 
 	}
 
+    private static string[] tools = { "Flip", "Twist", "Swap", "Split" };
+
     void OnGUI()
     {
         GUILayout.BeginArea(new Rect(10, 10, 200, 400));
         {
             GUILayout.BeginVertical();
             {
+                GUILayout.Label("Level: " + (level+1));
+                GUILayout.Label("ActiveTool: " + tools[currentRule]);
+                GUILayout.Label("Input DNA:");
+
                 foreach (DNAScript dna in CComparisonTools.s_input)
                 {
                     //Debug.Log(dna.completeness);
-                    GUILayout.Label(dna.gameObject.name + ": " + (dna.completeness * 100f) + "%");
+                    GUILayout.BeginHorizontal();
+                    {
+                        GUILayout.Space(20f);
+                        GUILayout.Label(dna.gameObject.name + ": " + (dna.completeness * 100f) + "%");
+                    }
+                    GUILayout.EndHorizontal();
                 }
             }
             GUILayout.EndVertical();

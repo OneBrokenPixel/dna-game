@@ -74,9 +74,9 @@ public class CSelectionTools
                 selected = null;
                 return;
             }
-            if ((selected[0].firstSelected == null || selected[0].firstSelected.Length != 4)
-                && (selected[0].firstSelected == null || selected[0].secondSelected.Length != 4))
+
             {
+                selected = new SelectedGenes[2];
                 selected[0].init(4, 4);
                 selected[1].init(0, 0);
             }
@@ -126,9 +126,9 @@ public class CSelectionTools
                 selected = null;
                 return;
             }
-            if ((selected[0].firstSelected == null || selected[0].firstSelected.Length != 8)
-                && (selected[0].firstSelected == null || selected[0].secondSelected.Length != 8))
+
             {
+                selected = new SelectedGenes[2];
                 selected[0].init(8, 8);
                 selected[1].init(0, 0);
             }
@@ -200,11 +200,8 @@ public class CSelectionTools
                 selected = null;
                 return;
             }
-            if ((selected[0].firstSelected == null || selected[0].firstSelected.Length != 4)
-                && (selected[0].firstSelected == null || selected[0].secondSelected.Length != 4)
-                && (selected[1].firstSelected == null || selected[1].firstSelected.Length != 4)
-                && (selected[1].firstSelected == null || selected[1].secondSelected.Length != 4))
             {
+                selected = new SelectedGenes[2];
                 selected[0].init(4, 4);
                 selected[1].init(4, 4);
             }
@@ -275,6 +272,7 @@ public class CSelectionTools
 
             int len = s_input[_dnaIndex].length;
 
+            selected = new SelectedGenes[2];
             if (_geneIndex == 0)
             {
                 selected[0].init(len, 0);

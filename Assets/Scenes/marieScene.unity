@@ -447,7 +447,7 @@ MonoBehaviour:
   - {fileID: 96851194}
   margin: 2.5999999
   selectionStretch: {x: 1, y: .800000012, z: 1}
-  startLevel: 2
+  startLevel: 0
   welldoneScreen: {fileID: 1455209008}
 --- !u!4 &769847021
 Transform:
